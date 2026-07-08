@@ -377,3 +377,10 @@ gap:15px;
 }
 
 }
+/* mensaje de error simple para login y registro */
+.mensaje-error {
+    color: #e02424;
+    font-size: 14px;
+    margin: 8px 0;
+}
+}

@@ -104,15 +104,28 @@
 
         <div class="login-box">
 
-            <h1>Iniciar sesión</h1>
+            <h1>Crea tu cuenta</h1>
 
             <span>
-                Bienvenido(a) de nuevo a
+                Únete a
                 <strong>Mentia</strong>
             </span>
 
-            <form id="form-login">
-            <form>
+            <form id="form-registro">
+
+                <label>Nombre completo</label>
+
+                <div class="input">
+
+                    <i class="fa-regular fa-user"></i>
+
+                    <input
+                        id="nombre"
+                        type="text"
+                        placeholder="Tu nombre"
+                        required>
+
+                </div>
 
                 <label>Correo electrónico</label>
 
@@ -125,8 +138,6 @@
                         type="email"
                         placeholder="ejemplo@correo.com"
                         required>
-                        type="email"
-                        placeholder="ejemplo@correo.com">
 
                 </div>
 
@@ -141,34 +152,24 @@
                         type="password"
                         placeholder="••••••••"
                         required>
-                        type="password"
-                        placeholder="••••••••">
 
                     <i class="fa-regular fa-eye"></i>
 
                 </div>
 
-                <a href="#" class="forgot">
-                    ¿Olvidaste tu contraseña?
-                </a>
-
-                <!-- aqui se muestra si el correo o la contraseña estan mal -->
+                <!-- aqui se muestra si algo sale mal, ej correo repetido -->
                 <p id="mensaje-error" class="mensaje-error"></p>
 
                 <button type="submit">
-                <button>
-                    Iniciar sesión
+                    Registrarme
                 </button>
 
             </form>
 
-           
-
             <p class="register">
-                ¿No tienes una cuenta?
+                ¿Ya tienes cuenta?
 
-                <a href="register.html">Regístrate aquí</a>
-                <a href="#">Regístrate aquí</a>
+                <a href="login.html">Inicia sesión aquí</a>
             </p>
 
         </div>
