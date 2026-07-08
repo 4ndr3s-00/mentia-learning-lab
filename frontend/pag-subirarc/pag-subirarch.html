@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentIA | Subir actividad</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style-subirarch.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">m</div>
+
+            <div>
+                <h2>mentia</h2>
+                <span>Academic Mentor</span>
+            </div>
+
+        </div>
+
+        <button class="chat-btn">
+            <i class="fa-regular fa-message"></i>
+            Chatear ahora
+        </button>
+
+        <nav>
+
+            <a href="#">
+                <i class="fa-solid fa-house"></i>
+                Inicio
+            </a>
+
+            <a href="#" class="active">
+                <i class="fa-solid fa-file-arrow-up"></i>
+                Subir actividad
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-microchip"></i>
+                Análisis IA
+            </a>
+
+            <a href="#">
+                <i class="fa-regular fa-clipboard"></i>
+                Plan de estudio
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-chart-column"></i>
+                Historial de progreso
+            </a>
+
+            <a href="#">
+                <i class="fa-regular fa-folder-open"></i>
+                Mis actividades
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-medal"></i>
+                Logros
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-gear"></i>
+                Ajustes
+            </a>
+
+        </nav>
+
+        <div class="help">
+
+            <i class="fa-regular fa-circle-question"></i>
+
+            <span>Ayuda</span>
+
+        </div>
+
+    </aside>
+
+    <!-- CONTENIDO -->
+
+    <main class="content">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div class="breadcrumb">
+
+                Inicio
+
+                <i class="fa-solid fa-angle-right"></i>
+
+                <span>Subir actividad</span>
+
+            </div>
+
+            <div class="profile">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <img src="img/user.jpg" alt="Usuario">
+
+            </div>
+
+        </header>
+
+        <!-- TITULO -->
+
+        <section class="title">
+
+            <h1>Workspace de Código</h1>
+
+            <p>
+                Sube tu archivo o escribe tu código directamente para iniciar el análisis interactivo.
+            </p>
+
+        </section>
+
+        <!-- PANEL -->
+
+        <section class="workspace">
+
+            <!-- EDITOR -->
+
+            <div class="editor">
+
+                <div class="editor-header">
+
+                    <div class="editor-title">
+
+                        <i class="fa-solid fa-code"></i>
+
+                        Área de Código
+
+                    </div>
+
+                    <div class="editor-actions">
+
+                        <button>
+
+                            <i class="fa-regular fa-copy"></i>
+
+                        </button>
+
+                        <button>
+
+                            <i class="fa-solid fa-expand"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <textarea spellcheck="false">
+def analizar_condiciones(edad, tiene_permiso):
+
+    """
+    Función para evaluar si un estudiante puede acceder
+    al material avanzado.
+    """
+
+    if edad >= 18 or tiene_permiso:
+        return "Acceso concedido"
+
+    elif edad < 18 and not tiene_permiso:
+        return "Acceso denegado"
+
+    else:
+        return "Estado no determinado"
+                </textarea>
+
+            </div>
+
+            <!-- PANEL DERECHO -->
+
+            <div class="panel">
+
+                <div class="campo">
+
+                    <label>Nombre del Proyecto</label>
+
+                    <input
+                        type="text"
+                        value="Taller de Condicionales"
+                    >
+
+                </div>
+
+                <div class="campo">
+
+                    <label>Lenguaje de Programación</label>
+
+                    <select>
+
+                        <option>Python</option>
+                        <option>JavaScript</option>
+                        <option>HTML</option>
+                        <option>CSS</option>
+                        <option>Java</option>
+
+                    </select>
+
+                </div>
+
+                <div class="campo">
+
+                    <label>Archivo Fuente</label>
+
+                    <div class="drop-area">
+
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                        <h3>Arrastra tu archivo aquí</h3>
+
+                        <p>o búscalo en tu equipo (.py .js .html)</p>
+
+                        <input type="file">
+
+                    </div>
+
+                </div>
+
+                <button class="analyze">
+
+                    <i class="fa-solid fa-brain"></i>
+
+                    Iniciar análisis con IA
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="js/app-subirarch.js"></script>
+
+</body>
+</html>
