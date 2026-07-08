@@ -1,0 +1,386 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:#fafafa;
+}
+
+.container{
+
+    display:flex;
+    min-height:100vh;
+}
+
+/*======================================
+            IZQUIERDA
+======================================*/
+
+.left{
+
+    width:50%;
+    background:#f2efff;
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo img{
+
+    width:50px;
+}
+
+.logo h2{
+
+    color:#141b4d;
+    font-size:42px;
+}
+
+.left h1{
+
+    font-size:55px;
+    color:#1f2456;
+    line-height:1.2;
+    margin-top:30px;
+}
+
+.left p{
+
+    color:#6f6f80;
+    margin-top:20px;
+    width:80%;
+    line-height:1.8;
+}
+
+.hero{
+
+    position:relative;
+    height:420px;
+    margin-top:30px;
+}
+
+.student{
+
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:0;
+    width:380px;
+}
+
+.card{
+
+    position:absolute;
+    width:170px;
+}
+
+.chart1{
+
+    left:0;
+    top:80px;
+}
+
+.plan{
+
+    right:0;
+    top:10px;
+}
+
+.chart2{
+
+    right:30px;
+    bottom:20px;
+}
+
+.features{
+
+    background:white;
+    border-radius:18px;
+    display:flex;
+    justify-content:space-between;
+    padding:25px;
+    margin-top:30px;
+}
+
+.feature{
+
+    display:flex;
+    gap:15px;
+    width:30%;
+}
+
+.icon{
+
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#ede8ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#6c4ef6;
+}
+
+.feature h4{
+
+    font-size:15px;
+    color:#222;
+}
+
+.feature p{
+
+    width:100%;
+    margin:0;
+    font-size:13px;
+}
+
+/*===================================
+            DERECHA
+===================================*/
+
+.right{
+
+    width:50%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:50px;
+}
+
+.login-box{
+
+    width:520px;
+    background:white;
+    padding:55px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.login-box h1{
+
+    text-align:center;
+    color:#191d4e;
+    font-size:45px;
+}
+
+.login-box span{
+
+    display:block;
+    text-align:center;
+    margin:10px 0 35px;
+    color:#777;
+}
+
+.login-box strong{
+
+    color:#6c4ef6;
+}
+
+label{
+
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:500;
+}
+
+.input{
+
+    display:flex;
+    align-items:center;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:20px;
+}
+
+.input input{
+
+    border:none;
+    outline:none;
+    flex:1;
+    padding:0 15px;
+    font-size:15px;
+}
+
+.input i{
+
+    color:#888;
+}
+
+.forgot{
+
+    display:block;
+    text-align:right;
+    margin-bottom:25px;
+    text-decoration:none;
+    color:#6c4ef6;
+    font-size:14px;
+}
+
+button{
+
+    width:100%;
+    padding:17px;
+    border:none;
+    border-radius:10px;
+    background:#6c4ef6;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+}
+
+.separator{
+
+    text-align:center;
+    margin:30px 0;
+    position:relative;
+}
+
+.separator::before{
+
+    content:"";
+    position:absolute;
+    width:100%;
+    height:1px;
+    background:#ddd;
+    left:0;
+    top:50%;
+}
+
+.separator span{
+
+    background:white;
+    padding:0 10px;
+    position:relative;
+}
+
+.social{
+
+    margin-bottom:15px;
+    background:white;
+    color:#333;
+    border:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+}
+
+.social img{
+
+    width:22px;
+}
+
+.register{
+
+    text-align:center;
+    margin-top:20px;
+}
+
+.register a{
+
+    color:#6c4ef6;
+    text-decoration:none;
+    font-weight:600;
+}
+
+footer{
+
+    width:100%;
+    margin-top:25px;
+    display:flex;
+    justify-content:space-between;
+    color:#777;
+    font-size:14px;
+}
+
+footer div{
+
+    display:flex;
+    gap:25px;
+}
+
+footer a{
+
+    text-decoration:none;
+    color:#6c4ef6;
+}
+
+/*==================================
+            RESPONSIVE
+==================================*/
+
+@media(max-width:1100px){
+
+.container{
+
+flex-direction:column;
+}
+
+.left,
+.right{
+
+width:100%;
+}
+
+.login-box{
+
+width:100%;
+max-width:550px;
+}
+
+.left{
+
+padding:40px;
+}
+
+.left h1{
+
+font-size:42px;
+}
+
+.student{
+
+width:300px;
+}
+
+.features{
+
+flex-direction:column;
+gap:25px;
+}
+
+.feature{
+
+width:100%;
+}
+
+footer{
+
+flex-direction:column;
+align-items:center;
+gap:15px;
+}
+
+}
+/* mensaje de error simple para login y registro */
+.mensaje-error {
+    color: #e02424;
+    font-size: 14px;
+    margin: 8px 0;
+}
+}
