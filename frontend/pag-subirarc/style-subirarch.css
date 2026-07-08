@@ -1,0 +1,350 @@
+/*==========================
+    CONFIGURACIÓN GENERAL
+===========================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f6fb;
+    color:#1f2937;
+}
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+/*==========================
+        SIDEBAR
+===========================*/
+
+.sidebar{
+    width:260px;
+    background:#ffffff;
+    border-right:1px solid #e8e8e8;
+    display:flex;
+    flex-direction:column;
+    padding:25px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:35px;
+}
+
+.logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:#5b3df5;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+    font-weight:700;
+}
+
+.logo h2{
+    font-size:30px;
+    font-weight:700;
+}
+
+.logo span{
+    color:#777;
+    font-size:13px;
+}
+
+.chat-btn{
+    border:none;
+    background:#5b3df5;
+    color:#fff;
+    padding:14px;
+    border-radius:15px;
+    font-size:16px;
+    cursor:pointer;
+    margin-bottom:35px;
+    transition:.3s;
+}
+
+.chat-btn:hover{
+    background:#4426dd;
+}
+
+.chat-btn i{
+    margin-right:8px;
+}
+
+nav{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+nav a{
+    text-decoration:none;
+    color:#555;
+    padding:15px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:.3s;
+}
+
+nav a:hover{
+    background:#f1efff;
+    color:#5b3df5;
+}
+
+nav .active{
+    background:#ece8ff;
+    color:#5b3df5;
+    font-weight:600;
+}
+
+.help{
+    margin-top:auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#666;
+    font-size:18px;
+}
+
+/*==========================
+        CONTENIDO
+===========================*/
+
+.content{
+    flex:1;
+    padding:35px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.breadcrumb{
+    color:#7d7d7d;
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.breadcrumb span{
+    color:#5b3df5;
+    font-weight:600;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.profile i{
+    font-size:22px;
+    color:#666;
+    cursor:pointer;
+}
+
+.profile img{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+/*==========================
+        TITULO
+===========================*/
+
+.title h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.title p{
+    color:#666;
+    margin-bottom:35px;
+}
+
+/*==========================
+        WORKSPACE
+===========================*/
+
+.workspace{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:30px;
+}
+
+/*==========================
+        EDITOR
+===========================*/
+
+.editor{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+
+.editor-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 25px;
+    border-bottom:1px solid #ececec;
+}
+
+.editor-title{
+    font-size:23px;
+    font-weight:600;
+}
+
+.editor-title i{
+    color:#5b3df5;
+    margin-right:8px;
+}
+
+.editor-actions button{
+    background:none;
+    border:none;
+    cursor:pointer;
+    margin-left:15px;
+    font-size:20px;
+}
+
+textarea{
+    width:100%;
+    height:620px;
+    border:none;
+    resize:none;
+    outline:none;
+    padding:25px;
+    font-size:16px;
+    background:#fafafa;
+    line-height:1.7;
+    font-family:Consolas, monospace;
+}
+
+/*==========================
+        PANEL DERECHO
+===========================*/
+
+.panel{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+
+.campo{
+    margin-bottom:28px;
+}
+
+label{
+    display:block;
+    margin-bottom:10px;
+    font-size:13px;
+    font-weight:600;
+    color:#6b7280;
+    text-transform:uppercase;
+}
+
+input,
+select{
+    width:100%;
+    padding:15px;
+    border-radius:14px;
+    border:1px solid #ddd;
+    font-size:15px;
+}
+
+.drop-area{
+    border:2px dashed #d8d4ff;
+    border-radius:18px;
+    background:#f8f7ff;
+    padding:50px 20px;
+    text-align:center;
+    position:relative;
+}
+
+.drop-area i{
+    font-size:55px;
+    color:#5b3df5;
+    margin-bottom:20px;
+}
+
+.drop-area h3{
+    margin-bottom:10px;
+}
+
+.drop-area p{
+    color:#666;
+    font-size:14px;
+}
+
+.drop-area input{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    cursor:pointer;
+}
+
+.analyze{
+    width:100%;
+    border:none;
+    background:#5b3df5;
+    color:#fff;
+    padding:18px;
+    border-radius:15px;
+    cursor:pointer;
+    font-size:18px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.analyze:hover{
+    background:#4527dd;
+}
+
+.analyze i{
+    margin-right:10px;
+}
+
+/*==========================
+      RESPONSIVE
+===========================*/
+
+@media(max-width:1100px){
+
+.workspace{
+    grid-template-columns:1fr;
+}
+
+.sidebar{
+    display:none;
+}
+
+.content{
+    padding:20px;
+}
+
+textarea{
+    height:450px;
+}
+
+}
