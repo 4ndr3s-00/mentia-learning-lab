@@ -1,40 +1,11 @@
 import sidebar from "../components/sidebar.js";
 import header from "../components/header.js";
 import { navigate } from "../router.js";
+import { obtenerDashboard } from "../api.js";
 
 const dashboard = {
 
     render() {
-
-        const dashboard = {
-
-            summary: {
-
-                uploadedActivities: 5,
-
-                analyzedActivities: 4,
-
-                studyPlanStatus: "Activo"
-
-            },
-
-            lastActivity: {
-
-                title: "Análisis de poema modernista",
-
-                subject: "Literatura Hispanoamericana",
-
-                deliveryDate: "20 de junio de 2025"
-
-            },
-
-            studyPlan: {
-
-                message: "Actualmente tienes un plan de estudio activo generado por Mentia IA."
-
-            }
-
-        };
 
         return `
 
@@ -57,8 +28,8 @@ const dashboard = {
                                 Actividades subidas
                             </p>
 
-                            <h2 class="text-4xl font-bold mt-3">
-                                ${dashboard.summary.uploadedActivities}
+                            <h2 id="uploaded-count" class="text-4xl font-bold mt-3">
+                                0
                             </h2>
 
                         </div>
@@ -69,8 +40,8 @@ const dashboard = {
                                 Actividades analizadas
                             </p>
 
-                            <h2 class="text-4xl font-bold mt-3">
-                                ${dashboard.summary.analyzedActivities}
+                            <h2 id="analyzed-count" class="text-4xl font-bold mt-3">
+                                0
                             </h2>
 
                         </div>
@@ -81,15 +52,15 @@ const dashboard = {
                                 Plan de estudio
                             </p>
 
-                            <h2 class="text-2xl font-bold text-green-600 mt-3">
-                                ${dashboard.summary.studyPlanStatus}
+                            <h2 id="study-plan-status" class="text-2xl font-bold text-green-600 mt-3">
+                                Sin actividades
                             </h2>
 
                         </div>
 
                     </section>
 
-                    <section class="bg-white rounded-2xl shadow-sm p-6 mt-8">
+                    <section id="last-activity-section" class="bg-white rounded-2xl shadow-sm p-6 mt-8 hidden">
 
                         <h2 class="text-xl font-semibold text-gray-800">
                             Última actividad
@@ -97,17 +68,11 @@ const dashboard = {
 
                         <div class="mt-5">
 
-                            <p class="font-semibold text-gray-700">
-                                ${dashboard.lastActivity.title}
-                            </p>
+                            <p id="last-activity-title" class="font-semibold text-gray-700"></p>
 
-                            <p class="text-gray-500 mt-2">
-                                ${dashboard.lastActivity.subject}
-                            </p>
+                            <p id="last-activity-language" class="text-gray-500 mt-2"></p>
 
-                            <p class="text-sm text-gray-400 mt-2">
-                                Enviado el ${dashboard.lastActivity.deliveryDate}
-                            </p>
+                            <p id="last-activity-date" class="text-sm text-gray-400 mt-2"></p>
 
                             <button id="view-analysis-button" class="mt-6 bg-[#6c4ef6] hover:bg-violet-700 text-white px-6 py-3 rounded-xl">
                                 Ver análisis
@@ -123,8 +88,8 @@ const dashboard = {
                             Estado del plan de estudio
                         </h2>
 
-                        <p class="text-gray-500 mt-4">
-                            ${dashboard.studyPlan.message}
+                        <p id="study-plan-message" class="text-gray-500 mt-4">
+                            Sube tu primera actividad para generar un plan de estudio.
                         </p>
 
                         <button id="study-plan-button" class="mt-6 bg-[#6c4ef6] hover:bg-violet-700 text-white px-6 py-3 rounded-xl">
@@ -161,25 +126,50 @@ const dashboard = {
 
     },
 
-    mounted() {
+    async mounted() {
 
         sidebar.mounted();
 
-        document.getElementById("view-analysis-button")?.addEventListener("click", 
-            function () { navigate("/analysis");
-        });
+        // id de la ultima actividad, se llena cuando llega la respuesta del backend
+        let idUltimaActividad = null;
 
-        document.getElementById("study-plan-button")?.addEventListener("click", 
-            function () { navigate("/study-plan");
-        });
-
-        document.getElementById("upload-button")?.addEventListener("click", 
+        document.getElementById("upload-button")?.addEventListener("click",
             function () { navigate("/upload");
         });
 
-        document.getElementById("activities-button")?.addEventListener("click", 
+        document.getElementById("activities-button")?.addEventListener("click",
             function () { navigate("/activities");
         });
+
+        document.getElementById("view-analysis-button")?.addEventListener("click",
+            function () { if (idUltimaActividad) navigate(`/analysis?id=${idUltimaActividad}`);
+        });
+
+        document.getElementById("study-plan-button")?.addEventListener("click",
+            function () { if (idUltimaActividad) navigate(`/study-plan?id=${idUltimaActividad}`);
+        });
+
+        // trae los datos reales del backend y rellena la pantalla
+        const datos = await obtenerDashboard();
+
+        document.getElementById("uploaded-count").textContent = datos.subidas;
+        document.getElementById("analyzed-count").textContent = datos.analizadas;
+        document.getElementById("study-plan-status").textContent = datos.planActivo ? "Activo" : "Sin plan";
+
+        if (datos.ultimaActividad) {
+            idUltimaActividad = datos.ultimaActividad.id_actividad;
+
+            document.getElementById("last-activity-section").classList.remove("hidden");
+            document.getElementById("last-activity-title").textContent = datos.ultimaActividad.nombre_proyecto;
+            document.getElementById("last-activity-language").textContent = datos.ultimaActividad.lenguaje;
+            document.getElementById("last-activity-date").textContent =
+                "Enviado el " + new Date(datos.ultimaActividad.fecha_subida).toLocaleDateString("es-ES");
+
+            if (datos.planActivo) {
+                document.getElementById("study-plan-message").textContent =
+                    "Actualmente tienes un plan de estudio activo generado por Mentia IA.";
+            }
+        }
 
     }
 

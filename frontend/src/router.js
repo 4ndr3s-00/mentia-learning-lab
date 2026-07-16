@@ -4,7 +4,10 @@ import dashboard from "./pages/dashboard.js";
 import upload from "./pages/uploadActivity.js";
 import studyPlan from "./pages/studyPlan.js";
 import activities from "./pages/activities.js";
+import profile from "./pages/profile.js";
+import diagnostic from "./pages/diagnostic.js";
 import notFound from "./pages/notFound.js";
+import { obtenerToken } from "./api.js";
 
 
 const routes = {
@@ -19,8 +22,12 @@ const routes = {
 
     "/study-plan": studyPlan,
 
-    "/activities": activities
-    
+    "/activities": activities,
+
+    "/profile": profile,
+
+    "/diagnostic": diagnostic
+
 };
 
 const pageTitles = {
@@ -37,12 +44,30 @@ const pageTitles = {
 
     "/activities": "Mentia | Mis actividades",
 
+    "/profile": "Mentia | Editar perfil",
+
+    "/diagnostic": "Mentia | Test diagnóstico",
+
 };
 
 
 export function router() {
 
     let currentPath = window.location.pathname;
+
+    const haySesion = Boolean(obtenerToken());
+
+    // si no ha iniciado sesion y quiere ver una pagina protegida, lo mandamos al login
+    if (!haySesion && currentPath !== "/") {
+        history.replaceState(null, null, "/");
+        currentPath = "/";
+    }
+
+    // si ya inicio sesion y esta en el login, lo mandamos directo al dashboard
+    if (haySesion && currentPath === "/") {
+        history.replaceState(null, null, "/dashboard");
+        currentPath = "/dashboard";
+    }
 
     const pageToShow = routes[currentPath] || notFound;
 

@@ -1,0 +1,6 @@
+# no subir la contraseña/llave de Gemini
+.env
+
+# archivos temporales que genera python al correr
+__pycache__/
+*.pyc

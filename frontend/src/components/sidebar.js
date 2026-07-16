@@ -1,4 +1,5 @@
 import { navigate } from "../router.js";
+import { cerrarSesion } from "../api.js";
 
 const sidebar = {
 
@@ -83,12 +84,30 @@ const sidebar = {
 
                     </a>
 
+                    <a href="" id="diagnostic-link"
+                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
 
-                    <a href="" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
+                        <i class="fa-solid fa-clipboard-question"></i>
+
+                        <span>Test diagnóstico</span>
+
+                    </a>
+
+
+                    <a href="" id="profile-link" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
 
                         <i class="fa-solid fa-gear"></i>
 
-                        <span>Ajustes</span>
+                        <span>Editar perfil</span>
+
+                    </a>
+
+                    <a href="" id="logout-link"
+                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-red-50 hover:text-red-600 transition">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        <span>Cerrar sesión</span>
 
                     </a>
 
@@ -120,20 +139,36 @@ const sidebar = {
             function (event) {event.preventDefault(); navigate("/upload");
         });
 
-        document.getElementById("analysis-link")?.addEventListener("click", 
-            function (event) { event.preventDefault(); navigate("/analysis");
+        // "Análisis IA" y "Plan de estudio" necesitan saber de cual actividad,
+        // asi que mandan a "mis actividades" para elegir una primero
+        document.getElementById("analysis-link")?.addEventListener("click",
+            function (event) { event.preventDefault(); navigate("/activities");
         });
 
-        document.getElementById("study-link")?.addEventListener("click", 
-            function (event){ event.preventDefault(); navigate("/study-plan");
+        document.getElementById("study-link")?.addEventListener("click",
+            function (event){ event.preventDefault(); navigate("/activities");
         });
 
         document.getElementById("activities-link")?.addEventListener("click",
             function (event) {event.preventDefault(); navigate("/activities");
         });
 
+        document.getElementById("profile-link")?.addEventListener("click",
+            function (event) {event.preventDefault(); navigate("/profile");
+        });
+
+        document.getElementById("diagnostic-link")?.addEventListener("click",
+            function (event) {event.preventDefault(); navigate("/diagnostic");
+        });
+
         document.getElementById("chat-button")?.addEventListener("click", (event) => { event.preventDefault();
             navigate("/upload");
+        });
+
+        document.getElementById("logout-link")?.addEventListener("click", (event) => {
+            event.preventDefault();
+            cerrarSesion();
+            navigate("/");
         });
 
     }

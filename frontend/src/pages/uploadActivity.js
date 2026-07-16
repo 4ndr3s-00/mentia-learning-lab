@@ -1,6 +1,7 @@
 import sidebar from "../components/sidebar.js";
 import header from "../components/header.js";
 import { navigate } from "../router.js";
+import { crearActividad } from "../api.js";
 
 const upload = {
     render() {
@@ -274,17 +275,40 @@ const upload = {
 
         });
 
-        analyzeButton?.addEventListener("click", () => {
+        analyzeButton?.addEventListener("click", async () => {
 
             const codigo = textarea.value.trim();
-            const archivo = fileInput.files.length;
+            const archivo = fileInput.files[0];
 
-            if (codigo === "" && archivo === 0) {
+            if (codigo === "" && !archivo) {
                 alert("Debes escribir un código o subir un archivo.");
                 return;
             }
 
-            navigate("/analysis");
+            if (projectName.value.trim() === "") {
+                alert("Escribe un nombre para el proyecto.");
+                return;
+            }
+
+            // arma los datos del formulario para mandarlos al backend
+            const datosFormulario = new FormData();
+            datosFormulario.append("nombre_proyecto", projectName.value.trim());
+            datosFormulario.append("lenguaje", language.value.trim());
+            datosFormulario.append("codigo", codigo);
+            if (archivo) datosFormulario.append("archivo", archivo);
+
+            const textoOriginal = analyzeButton.innerHTML;
+            analyzeButton.disabled = true;
+            analyzeButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analizando con IA...';
+
+            try {
+                const resultado = await crearActividad(datosFormulario);
+                navigate(`/analysis?id=${resultado.actividad.id_actividad}`);
+            } catch (error) {
+                alert(error.message);
+                analyzeButton.disabled = false;
+                analyzeButton.innerHTML = textoOriginal;
+            }
         });
 
     }
