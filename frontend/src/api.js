@@ -1,4 +1,3 @@
-// aqui viven todas las llamadas al backend, para no repetir fetch() en cada pagina
 // vacio a proposito: el backend ahora sirve el frontend, asi que todo queda en el mismo origen
 const API_URL = "";
 

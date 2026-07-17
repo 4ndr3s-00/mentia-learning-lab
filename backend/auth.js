@@ -1,4 +1,3 @@
-// aqui vive todo lo de contraseñas y tokens de sesion (login)
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -8,7 +7,7 @@ function encriptarContrasena(contrasena) {
   return bcrypt.hashSync(contrasena, 10);
 }
 
-// compara la contraseña escrita contra la guardada (soporta el usuario semilla con contraseña sin encriptar)
+// compara la contraseña escrita contra la guardada
 function compararContrasena(contrasenaEscrita, contrasenaGuardada) {
   const estaEncriptada = contrasenaGuardada.startsWith("$2");
   return estaEncriptada
@@ -21,7 +20,7 @@ function crearToken(idUsuario) {
   return jwt.sign({ idUsuario }, process.env.JWT_SECRET, { expiresIn: "7d" });
 }
 
-// middleware: revisa el token que viene en la peticion antes de dejar pasar a una ruta protegida
+// revisa el token que viene en la peticion antes de dejar pasar a una ruta protegida
 function verificarToken(req, res, next) {
   const encabezado = req.headers.authorization || "";
   const token = encabezado.replace("Bearer ", "");

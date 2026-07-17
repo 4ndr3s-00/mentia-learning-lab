@@ -1,10 +1,13 @@
-create database mentia
-
 create table usuario (
     id_usuario serial primary key,
     nombre_completo varchar not null,
     correo varchar unique not null,
     contrasena varchar not null,
+    puntaje_visual int,
+    puntaje_auditivo int,
+    puntaje_kinestesico int,
+    perfil_aprendizaje varchar,
+    fecha_diagnostico timestamp,
     fecha_registro timestamp default current_timestamp
 );
 

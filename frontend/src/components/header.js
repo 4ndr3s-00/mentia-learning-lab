@@ -50,11 +50,6 @@ const header = {
 
     },
 
-    mounted() {
-
-        // Aquí irán los eventos del header.
-
-    }
 
 };
 

@@ -70,7 +70,6 @@ export function router() {
         currentPath = "/";
     }
 
-    // si ya inicio sesion y esta en el login, lo mandamos directo al dashboard
     if (haySesion && currentPath === "/") {
         history.replaceState(null, null, "/dashboard");
         currentPath = "/dashboard";

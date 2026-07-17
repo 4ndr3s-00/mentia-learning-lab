@@ -144,13 +144,10 @@ async def analizar_actividad(
 
     generation_config = {
         "temperature": 0.2,        # baja para respuestas mas consistentes
-        "maxOutputTokens": 2048,   # el analisis ahora pide mas detalle, asi que necesita mas espacio para no cortarse
+        "maxOutputTokens": 2048,   # el analisis pide mas detalle, asi que necesita mas espacio para no cortarse
     }
 
-    # el parametro para "pensar menos" (ahorra tokens) cambia de nombre segun el modelo:
-    # - gemini 3 usa "thinkingLevel"
-    # - gemini 2.5 usa "thinkingBudget" (cantidad de tokens para pensar)
-    # - los modelos mas viejos no soportan pensar, asi que no les mandamos nada
+    
     if "gemini-3" in GEMINI_MODEL:
         generation_config["thinkingConfig"] = {"thinkingLevel": "low"}
     elif "gemini-2.5" in GEMINI_MODEL:

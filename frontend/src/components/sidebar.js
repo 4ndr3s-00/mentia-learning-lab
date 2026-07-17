@@ -139,8 +139,6 @@ const sidebar = {
             function (event) {event.preventDefault(); navigate("/upload");
         });
 
-        // "Análisis IA" y "Plan de estudio" necesitan saber de cual actividad,
-        // asi que mandan a "mis actividades" para elegir una primero
         document.getElementById("analysis-link")?.addEventListener("click",
             function (event) { event.preventDefault(); navigate("/activities");
         });
