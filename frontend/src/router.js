@@ -57,13 +57,12 @@ export function router() {
 
     const haySesion = Boolean(obtenerToken());
 
-    // si no ha iniciado sesion y quiere ver una pagina protegida, lo mandamos al login
+   
     if (!haySesion && currentPath !== "/") {
         history.replaceState(null, null, "/");
         currentPath = "/";
     }
 
-    // si ya inicio sesion y esta en el login, lo mandamos directo al dashboard
     if (haySesion && currentPath === "/") {
         history.replaceState(null, null, "/dashboard");
         currentPath = "/dashboard";

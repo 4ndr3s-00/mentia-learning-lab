@@ -1,4 +1,3 @@
-// este es el archivo principal: aqui se arranca el servidor y viven todas las rutas (URLs) del backend
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -10,10 +9,10 @@ const auth = require("./auth");
 const ia = require("./ia");
 
 const app = express();
-app.use(cors()); // deja que el frontend (otro puerto) le hable a este backend
+app.use(cors()); // deja que el frontend le hable a este backend
 app.use(express.json()); // permite leer json en el body de las peticiones
 
-// carpeta publica donde se pueden ver los archivos/imagenes subidos, ej: http://localhost:3000/uploads/foto.png
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // multer guarda el archivo subido en memoria (no en disco) para poder reenviarlo a la ia y guardarlo nosotros
@@ -25,7 +24,7 @@ function normalizarLenguaje(lenguaje) {
   return LENGUAJES_VALIDOS[String(lenguaje).toLowerCase()] || lenguaje;
 }
 
-// revisa rapido que el servidor esta vivo
+// revisa que el servidor esta vivo
 app.get("/api/estado", (req, res) => res.json({ estado: "ok" }));
 
 // ---------- login y registro ----------
@@ -53,7 +52,7 @@ app.post("/api/auth/register", async (req, res) => {
   res.status(201).json({ token: auth.crearToken(usuario.id_usuario), usuario });
 });
 
-// revisa correo + contraseña y entrega un token de sesion
+// revisa correo jumto con contraseña y entrega un token de sesion
 app.post("/api/auth/login", async (req, res) => {
   const { correo, contrasena } = req.body;
 
@@ -100,9 +99,9 @@ app.put("/api/usuario", auth.verificarToken, async (req, res) => {
   res.json({ usuario: { id_usuario: req.idUsuario, nombre_completo, correo } });
 });
 
-// ---------- test diagnostico (estilo de aprendizaje: visual, auditivo, kinestesico) ----------
+// ---------- test diagnostico ----------
 
-// trae el resultado guardado del test diagnostico del usuario (o todo null si no lo ha hecho)
+// trae el resultado guardado del test diagnostico del usuario o todo null si no lo ha hecho
 app.get("/api/usuario/diagnostico", auth.verificarToken, async (req, res) => {
   const filas = await db.query(
     "select puntaje_visual, puntaje_auditivo, puntaje_kinestesico, perfil_aprendizaje, fecha_diagnostico from usuario where id_usuario = $1",
@@ -130,7 +129,7 @@ app.put("/api/usuario/diagnostico", auth.verificarToken, async (req, res) => {
 
 // ---------- actividades ----------
 
-// el estudiante sube una actividad (codigo escrito y/o archivo) y se manda a analizar con ia
+// el estudiante sube una actividad y se manda a analizar con ia
 app.post("/api/actividades", auth.verificarToken, subirArchivo.single("archivo"), async (req, res) => {
   const { nombre_proyecto, codigo } = req.body;
   const lenguaje = normalizarLenguaje(req.body.lenguaje);
@@ -140,7 +139,7 @@ app.post("/api/actividades", auth.verificarToken, subirArchivo.single("archivo")
     return res.status(400).json({ error: "Faltan datos: nombre del proyecto o lenguaje." });
   }
 
-  // si subieron un archivo, se guarda en la carpeta uploads para poder verlo despues (ej: una imagen)
+  // si subieron un archivo, se guarda en la carpeta uploads para poder verlo despues
   let nombreArchivoGuardado = null;
   if (archivo) {
     nombreArchivoGuardado = `${Date.now()}-${archivo.originalname}`;
@@ -251,14 +250,14 @@ app.get("/api/dashboard", auth.verificarToken, async (req, res) => {
   });
 });
 
-// ---------- servir el frontend (asi con un solo "npm start" queda todo arriba) ----------
+// ---------- servir el frontend ----------
 
 const CARPETA_FRONTEND = path.join(__dirname, "..", "frontend");
 
-app.use(express.static(CARPETA_FRONTEND)); // sirve index.html, src/*.js, etc
-app.use("/img", express.static(path.join(CARPETA_FRONTEND, "public", "img"))); // las imagenes del login/sidebar
+app.use(express.static(CARPETA_FRONTEND)); 
+app.use("/img", express.static(path.join(CARPETA_FRONTEND, "public", "img"))); 
 
-// cualquier ruta que no sea de la api o de archivos subidos, se manda al index.html (asi funciona la navegacion)
+// cualquier ruta que no sea de la api o de archivos subidos, se manda al index.html 
 app.get("*", (req, res, next) => {
   if (req.path.startsWith("/api") || req.path.startsWith("/uploads")) return next();
   res.sendFile(path.join(CARPETA_FRONTEND, "index.html"));

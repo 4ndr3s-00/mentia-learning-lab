@@ -130,7 +130,7 @@ const dashboard = {
 
         sidebar.mounted();
 
-        // id de la ultima actividad, se llena cuando llega la respuesta del backend
+        
         let idUltimaActividad = null;
 
         document.getElementById("upload-button")?.addEventListener("click",

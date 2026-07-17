@@ -1,11 +1,10 @@
-// aqui vive la conexion con el servicio de ia-analisis (python + gemini) y el guardado del resultado en la bd
 require("dotenv").config();
 const db = require("./db");
 
-// una extension de archivo por cada lenguaje, para armar un archivo cuando el estudiante solo escribio codigo
+
 const EXTENSION_POR_LENGUAJE = { Python: "py", Java: "java", Javascript: "js", HTML: "html", CSS: "css" };
 
-// revisa si el archivo subido es una imagen (esas no se analizan, solo se muestran)
+// revisa si el archivo subido es una imagen 
 function esImagen(mimetype) {
   return Boolean(mimetype && mimetype.startsWith("image/"));
 }
@@ -56,7 +55,7 @@ async function obtenerOCrearTema(nombre, descripcion) {
   return creados[0].id_tema;
 }
 
-// funcion principal: pide el analisis a la ia y guarda analisis + plan de estudio + temas en la bd
+// funcion principal: pide el analisis a la ia y guarda analisis, plan de estudio y temas en la bd
 async function analizarYGuardar(idActividad, nombreProyecto, lenguaje, codigo, archivo) {
   const resultado = await pedirAnalisisIA(nombreProyecto, lenguaje, codigo, archivo);
 
@@ -79,7 +78,7 @@ async function analizarYGuardar(idActividad, nombreProyecto, lenguaje, codigo, a
   );
   const analisis = analisisCreado[0];
 
-  // arma el plan de estudio a partir de las debilidades y sugerencias que ya dio la ia
+  // arma el plan de estudio a partir de las debilidades y sugerencias
   const objetivo = debilidades.length > 0
     ? `Reforzar lo siguiente: ${debilidades.join("; ")}`
     : "Continuar practicando y explorar temas mas avanzados.";
@@ -91,7 +90,7 @@ async function analizarYGuardar(idActividad, nombreProyecto, lenguaje, codigo, a
   );
   const planEstudio = planCreado[0];
 
-  // cada debilidad se vuelve un tema de estudio (si no hay debilidades, un tema generico)
+  // cada debilidad se vuelve un tema de estudio 
   const debilidadesParaTemas = debilidades.length > 0 ? debilidades : ["Buenas practicas avanzadas"];
   const temas = [];
 

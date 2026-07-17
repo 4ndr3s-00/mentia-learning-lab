@@ -1,8 +1,7 @@
-// aqui viven todas las llamadas al backend, para no repetir fetch() en cada pagina
 // vacio a proposito: el backend ahora sirve el frontend, asi que todo queda en el mismo origen
 const API_URL = "";
 
-// guarda el token y los datos del usuario en el navegador, para recordar la sesion
+
 function guardarSesion(token, usuario) {
   localStorage.setItem("mentia_token", token);
   localStorage.setItem("mentia_usuario", JSON.stringify(usuario));
