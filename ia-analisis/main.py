@@ -150,7 +150,9 @@ async def analizar_actividad(
     
     if "gemini-3" in GEMINI_MODEL:
         generation_config["thinkingConfig"] = {"thinkingLevel": "low"}
-    elif "gemini-2.5" in GEMINI_MODEL:
+    else:
+        # gemini-2.5 y los alias como "gemini-flash-latest" piensan por defecto;
+        # sin este limite gastan todo maxOutputTokens pensando y nunca escriben el json final
         generation_config["thinkingConfig"] = {"thinkingBudget": 512}
 
     payload = {
@@ -172,7 +174,9 @@ async def analizar_actividad(
     data = respuesta.json()
 
     try:
-        texto_generado = data["candidates"][0]["content"]["parts"][0]["text"]
+        partes = data["candidates"][0]["content"]["parts"]
+        # nos saltamos las partes de "pensamiento" (thought) del modelo, solo nos interesa la respuesta final
+        texto_generado = "".join(p["text"] for p in partes if p.get("text") and not p.get("thought"))
         resultado = limpiar_json(texto_generado)
     except (KeyError, IndexError, json.JSONDecodeError) as e:
         # si algo sale mal, mostramos la respuesta cruda para poder revisarla
