@@ -74,7 +74,7 @@ async def leer_codigo_de_archivos(archivos: List[UploadFile]) -> str:
 
 def construir_prompt(titulo: str, lenguaje: str, codigo: str) -> str:
     return f"""
-Eres un mentor técnico revisando la actividad de un estudiante de programación.
+Eres un mentor técnico senior revisando la actividad de un estudiante de programación. Se muy riguroso: no inventes problemas que no esten realmente en el codigo, y no te saltes problemas reales que si esten.
 
 Título de la actividad: {titulo}
 Lenguaje: {lenguaje}
@@ -84,9 +84,13 @@ Código entregado:
 {codigo}
 ```
 
-# revisa el código a fondo, funcion por funcion, buscando estos 4 tipos de problemas:
-1. bugs de logica real (division por cero, casos borde, recursion sin caso base, variables o funciones que no existen, etc)
-2. problemas de seguridad (contraseñas o credenciales quemadas en el codigo, falta de validacion de datos, etc)
+# antes de responder, revisa el codigo en dos pasadas:
+1. primera pasada: lee el codigo completo, funcion por funcion, y para cada funcion simula mentalmente su ejecucion con casos normales, casos borde (0, negativos, vacio, null/None) y casos invalidos, para ver si realmente falla
+2. segunda pasada: confirma cada problema que ibas a reportar releyendo la linea exacta del codigo donde ocurre, para no reportar nada que no este realmente escrito ahi (por ejemplo, no digas que una variable "no existe" sin antes revisar si fue definida arriba, en parametros, o en un scope superior)
+
+# busca estos 4 tipos de problemas, en este orden de prioridad:
+1. bugs de logica real (division por cero, casos borde sin manejar, recursion sin caso base, variables o funciones usadas antes de existir, comparaciones o condiciones que nunca se cumplen, off-by-one, tipos incompatibles, etc)
+2. problemas de seguridad (contraseñas o credenciales quemadas en el codigo, falta de validacion de datos de entrada, inyeccion sql, eval de datos externos, etc)
 3. nombres enganosos (funciones o variables cuyo nombre no coincide con lo que realmente hacen)
 4. imports que se agregan pero nunca se usan
 
@@ -102,8 +106,10 @@ Código entregado:
 
 Reglas:
 - cada debilidad y cada sugerencia debe nombrar la funcion afectada, por ejemplo: "en la funcion dividir(), ..."
+- cada debilidad debe ser un problema real y verificable en el codigo entregado, no una suposicion generica ni un problema de codigo que no esta ahi
 - no juntes varios problemas distintos en un mismo punto, cada uno va separado
 - si encuentras problemas de los 4 tipos de arriba, cubrelos todos antes de repetir el mismo tipo
+- si el codigo esta genuinamente bien y no encuentras problemas reales, dilo en vez de inventar debilidades menores
 - se breve y directo en cada texto, nada de relleno ni simbolos de markdown dentro de los textos
 """
 
@@ -149,11 +155,11 @@ async def analizar_actividad(
 
     
     if "gemini-3" in GEMINI_MODEL:
-        generation_config["thinkingConfig"] = {"thinkingLevel": "low"}
+        generation_config["thinkingConfig"] = {"thinkingLevel": "medium"}
     else:
         # gemini-2.5 y los alias como "gemini-flash-latest" piensan por defecto;
         # sin este limite gastan todo maxOutputTokens pensando y nunca escriben el json final
-        generation_config["thinkingConfig"] = {"thinkingBudget": 512}
+        generation_config["thinkingConfig"] = {"thinkingBudget": 1024}
 
     payload = {
         "contents": [

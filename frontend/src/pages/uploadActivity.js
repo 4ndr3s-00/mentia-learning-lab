@@ -12,23 +12,7 @@ const upload = {
 
             description: "Sube tu archivo o escribe tu código directamente para iniciar el análisis interactivo.",
 
-            exampleCode: `
-    def analizar_condiciones(edad, tiene_permiso):
-
-        """
-        Función para evaluar si un estudiante puede acceder
-        al material avanzado.
-        """
-
-        if edad >= 18 or tiene_permiso:
-            return "Acceso concedido"
-
-        elif edad < 18 and not tiene_permiso:
-            return "Acceso denegado"
-
-        else:
-            return "Estado no determinado"
-            `,
+            placeholderCode: "# Pon tu código aquí...",
 
             languages: [
                 "Python",
@@ -96,9 +80,7 @@ const upload = {
 
                                 <!-- Código -->
 
-                                <textarea id="code-editor" spellcheck="false" class="w-full h-[620px] resize-none outline-none p-6 bg-gray-50 font-mono text-[15px] leading-7">
-                                    ${workspace.exampleCode}
-                                </textarea>
+                                <textarea id="code-editor" spellcheck="false" placeholder="${workspace.placeholderCode}" class="w-full h-[620px] resize-none outline-none p-6 bg-gray-50 font-mono text-[15px] leading-7"></textarea>
 
                             </section>
 
