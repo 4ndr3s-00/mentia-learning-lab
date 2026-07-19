@@ -31,13 +31,14 @@ app.get("/api/estado", (req, res) => res.json({ estado: "ok" }));
 
 // crea un usuario nuevo con su contraseña ya encriptada
 app.post("/api/auth/register", async (req, res) => {
-  const { nombre_completo, correo, contrasena } = req.body;
+  const { nombre_completo, contrasena } = req.body;
+  const correo = req.body.correo ? String(req.body.correo).trim().toLowerCase() : req.body.correo;
 
   if (!nombre_completo || !correo || !contrasena) {
     return res.status(400).json({ error: "Faltan datos: nombre, correo o contraseña." });
   }
 
-  const yaExiste = await db.query("select id_usuario from usuario where correo = $1", [correo]);
+  const yaExiste = await db.query("select id_usuario from usuario where lower(correo) = $1", [correo]);
   if (yaExiste.length > 0) {
     return res.status(409).json({ error: "Ese correo ya esta registrado." });
   }
@@ -54,9 +55,10 @@ app.post("/api/auth/register", async (req, res) => {
 
 // revisa correo jumto con contraseña y entrega un token de sesion
 app.post("/api/auth/login", async (req, res) => {
-  const { correo, contrasena } = req.body;
+  const { contrasena } = req.body;
+  const correo = req.body.correo ? String(req.body.correo).trim().toLowerCase() : req.body.correo;
 
-  const encontrados = await db.query("select * from usuario where correo = $1", [correo]);
+  const encontrados = await db.query("select * from usuario where lower(correo) = $1", [correo]);
   if (encontrados.length === 0) {
     return res.status(401).json({ error: "Correo o contraseña incorrectos." });
   }
@@ -74,10 +76,19 @@ app.post("/api/auth/login", async (req, res) => {
 
 // edita el nombre, correo y (si escriben una nueva) la contraseña del usuario que inicio sesion
 app.put("/api/usuario", auth.verificarToken, async (req, res) => {
-  const { nombre_completo, correo, contrasena } = req.body;
+  const { nombre_completo, contrasena } = req.body;
+  const correo = req.body.correo ? String(req.body.correo).trim().toLowerCase() : req.body.correo;
 
   if (!nombre_completo || !correo) {
     return res.status(400).json({ error: "Faltan datos: nombre o correo." });
+  }
+
+  const yaExiste = await db.query(
+    "select id_usuario from usuario where lower(correo) = $1 and id_usuario != $2",
+    [correo, req.idUsuario]
+  );
+  if (yaExiste.length > 0) {
+    return res.status(409).json({ error: "Ese correo ya lo esta usando otra cuenta." });
   }
 
   try {
