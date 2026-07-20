@@ -7,39 +7,59 @@ const sidebar = {
 
         return `
 
-            <aside class="w-64 min-h-screen bg-white border-r border-gray-200 flex flex-col p-6">
+            <!-- Botón menú móvil -->
+
+            <button id="menu-button" class="fixed top-5 left-5 z-[60] lg:hidden w-11 h-11 rounded-xl bg-[#6c4ef6] text-white shadow-lg">
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
+            <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/40 z-40 lg:hidden"></div>
+
+            <!-- Sidebar -->
+
+            <aside id="sidebar" class="fixed lg:sticky lg:top-0 top-0 left-0 z-50 w-64 h-screen bg-white border-r border-gray-200 flex flex-col p-6 -translate-x-full lg:translate-x-0 transition-transform duration-300">
 
                 <!-- Logo -->
 
                 <div class="flex items-center gap-4 mb-10">
 
                     <div class="w-10 h-10 rounded-xl flex items-center justify-center">
+
                         <img src="/img/logo-mentia.png">
+
                     </div>
 
                     <div>
+
                         <img src="/img/mentia.png" width="100">
 
                         <span class="text-sm text-gray-500">
+
                             Academic Mentor
+
                         </span>
+
                     </div>
 
                 </div>
 
-                <!-- Botón IA -->
+                <!-- Botón principal -->
 
                 <button id="chat-button" class="w-full bg-[#6c4ef6] hover:bg-violet-700 text-white rounded-xl py-3 font-medium transition mb-8">
-                    <i class="fa-regular fa-message mr-2"></i>
+
+                    <i class="fa-solid fa-upload mr-2"></i>
+
                     Subir ahora
+
                 </button>
 
                 <!-- Navegación -->
 
-                <nav class="flex flex-col gap-2">
+                <nav class="flex flex-col gap-2 flex-1">
 
-                    <a href="" id="dashboard-link"
-                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
+                    <a href="" id="dashboard-link"  class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
 
                         <i class="fa-solid fa-house"></i>
 
@@ -47,8 +67,7 @@ const sidebar = {
 
                     </a>
 
-                    <a href="" id="upload-link"
-                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
+                    <a href="" id="upload-link" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
 
                         <i class="fa-solid fa-file-arrow-up"></i>
 
@@ -56,8 +75,7 @@ const sidebar = {
 
                     </a>
 
-                    <a href="" id="analysis-link"
-                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
+                    <a href="" id="analysis-link" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
 
                         <i class="fa-solid fa-microchip"></i>
 
@@ -65,8 +83,7 @@ const sidebar = {
 
                     </a>
 
-                    <a href="" id="study-link"
-                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
+                    <a href="" id="study-link" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
 
                         <i class="fa-regular fa-clipboard"></i>
 
@@ -74,9 +91,7 @@ const sidebar = {
 
                     </a>
 
-
-                    <a href="" id="activities-link"
-                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
+                    <a href="" id="activities-link" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
 
                         <i class="fa-regular fa-folder-open"></i>
 
@@ -84,8 +99,7 @@ const sidebar = {
 
                     </a>
 
-                    <a href="" id="diagnostic-link"
-                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
+                    <a href="" id="diagnostic-link" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
 
                         <i class="fa-solid fa-clipboard-question"></i>
 
@@ -93,17 +107,15 @@ const sidebar = {
 
                     </a>
 
-
                     <a href="" id="profile-link" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition">
 
-                        <i class="fa-solid fa-gear"></i>
+                        <i class="fa-solid fa-user-gear"></i>
 
                         <span>Editar perfil</span>
 
                     </a>
 
-                    <a href="" id="logout-link"
-                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-red-50 hover:text-red-600 transition">
+                    <a href="" id="logout-link" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-red-50 hover:text-red-600 transition">
 
                         <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -115,7 +127,7 @@ const sidebar = {
 
                 <!-- Ayuda -->
 
-                <div class="mt-auto flex items-center gap-3 text-gray-500">
+                <div class="mt-6 flex items-center gap-3 text-gray-500">
 
                     <i class="fa-regular fa-circle-question"></i>
 
@@ -131,42 +143,136 @@ const sidebar = {
 
     mounted() {
 
-        document.getElementById("dashboard-link")?.addEventListener("click", 
-            function (event) { event.preventDefault(); navigate("/dashboard");
+        const sidebarElement = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+        const menuButton = document.getElementById("menu-button");
+
+        function closeSidebar() {
+
+            if (window.innerWidth < 1024) {
+
+                sidebar.classList.add("-translate-x-full");
+                overlay.classList.add("hidden");
+
+            }
+
+        }
+
+        menuButton?.addEventListener("click", () => {
+
+            sidebarElement.classList.remove("-translate-x-full");
+
+            overlay.classList.remove("hidden");
+
         });
 
-        document.getElementById("upload-link")?.addEventListener("click", 
-            function (event) {event.preventDefault(); navigate("/upload");
+        overlay?.addEventListener("click", closeSidebar);
+
+        document.getElementById("dashboard-link")?.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            navigate("/dashboard");
+
+            closeSidebar();
+
         });
 
-        document.getElementById("analysis-link")?.addEventListener("click",
-            function (event) { event.preventDefault(); navigate("/activities");
-        });
+        document.getElementById("upload-link")?.addEventListener("click", (event) => {
 
-        document.getElementById("study-link")?.addEventListener("click",
-            function (event){ event.preventDefault(); navigate("/activities");
-        });
+            event.preventDefault();
 
-        document.getElementById("activities-link")?.addEventListener("click",
-            function (event) {event.preventDefault(); navigate("/activities");
-        });
-
-        document.getElementById("profile-link")?.addEventListener("click",
-            function (event) {event.preventDefault(); navigate("/profile");
-        });
-
-        document.getElementById("diagnostic-link")?.addEventListener("click",
-            function (event) {event.preventDefault(); navigate("/diagnostic");
-        });
-
-        document.getElementById("chat-button")?.addEventListener("click", (event) => { event.preventDefault();
             navigate("/upload");
+
+            closeSidebar();
+
+        });
+
+        document.getElementById("analysis-link")?.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            navigate("/activities");
+
+            closeSidebar();
+
+        });
+
+        document.getElementById("study-link")?.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            navigate("/activities");
+
+            closeSidebar();
+
+        });
+
+        document.getElementById("activities-link")?.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            navigate("/activities");
+
+            closeSidebar();
+
+        });
+
+        document.getElementById("profile-link")?.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            navigate("/profile");
+
+            closeSidebar();
+
+        });
+
+        document.getElementById("diagnostic-link")?.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            navigate("/diagnostic");
+
+            closeSidebar();
+
+        });
+
+        document.getElementById("chat-button")?.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            navigate("/upload");
+
+            closeSidebar();
+
         });
 
         document.getElementById("logout-link")?.addEventListener("click", (event) => {
+
             event.preventDefault();
+
             cerrarSesion();
+
             navigate("/");
+
+            closeSidebar();
+
+        });
+
+        window.addEventListener("resize", () => {
+
+            if (window.innerWidth >= 1024) {
+
+                sidebar.classList.remove("-translate-x-full");
+                overlay.classList.add("hidden");
+
+            } else {
+
+                sidebar.classList.add("-translate-x-full");
+
+            }
+
         });
 
     }
