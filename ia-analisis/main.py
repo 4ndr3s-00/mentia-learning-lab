@@ -137,7 +137,6 @@ async def analizar_actividad(
         raise HTTPException(status_code=400, detail="No se pudo leer codigo de los archivos subidos.")
 
     # limite de caracteres que le mandamos a la ia, para no gastar tokens de mas
-    # (6000 caracteres es de sobra para una actividad normal de estudiante)
     LIMITE_CARACTERES = 6000
     if len(codigo) > LIMITE_CARACTERES:
         codigo = codigo[:LIMITE_CARACTERES] + "\n\n(codigo recortado para ahorrar tokens)"
@@ -147,10 +146,7 @@ async def analizar_actividad(
         "maxOutputTokens": 2048,   # el analisis ahora pide mas detalle, asi que necesita mas espacio para no cortarse
     }
 
-    # el parametro para "pensar menos" (ahorra tokens) cambia de nombre segun el modelo:
-    # - gemini 3 usa "thinkingLevel"
-    # - gemini 2.5 usa "thinkingBudget" (cantidad de tokens para pensar)
-    # - los modelos mas viejos no soportan pensar, asi que no les mandamos nada
+    # el parametro para "pensar menos" (ahorra tokens) cambia de nombre segun el modelo
     if "gemini-3" in GEMINI_MODEL:
         generation_config["thinkingConfig"] = {"thinkingLevel": "low"}
     elif "gemini-2.5" in GEMINI_MODEL:

@@ -121,7 +121,8 @@ app.put("/api/usuario/diagnostico", auth.verificarToken, async (req, res) => {
        perfil_aprendizaje = $4, fecha_diagnostico = now() where id_usuario = $5`,
       [puntaje_visual, puntaje_auditivo, puntaje_kinestesico, perfil_aprendizaje, req.idUsuario]
     );
-  } catch {
+  } catch (error) {
+    console.error("Error al guardar el diagnostico:", error);
     return res.status(400).json({ error: "No se pudo guardar el resultado del test." });
   }
 
@@ -140,6 +141,11 @@ app.post("/api/actividades", auth.verificarToken, subirArchivo.single("archivo")
     return res.status(400).json({ error: "Faltan datos: nombre del proyecto o lenguaje." });
   }
 
+  // el lenguaje debe ser uno de los que la bd acepta (evita que un valor raro tumbe el insert)
+  if (!Object.values(LENGUAJES_VALIDOS).includes(lenguaje)) {
+    return res.status(400).json({ error: "Lenguaje no soportado." });
+  }
+
   // si subieron un archivo, se guarda en la carpeta uploads para poder verlo despues (ej: una imagen)
   let nombreArchivoGuardado = null;
   if (archivo) {
@@ -147,12 +153,18 @@ app.post("/api/actividades", auth.verificarToken, subirArchivo.single("archivo")
     fs.writeFileSync(path.join(__dirname, "uploads", nombreArchivoGuardado), archivo.buffer);
   }
 
-  const creadas = await db.query(
-    `insert into actividad (nombre_proyecto, lenguaje, codigo, archivo, estado, id_usuario)
-     values ($1, $2, $3, $4, 'analizando', $5) returning *`,
-    [nombre_proyecto, lenguaje, codigo || null, nombreArchivoGuardado, req.idUsuario]
-  );
-  const actividad = creadas[0];
+  let actividad;
+  try {
+    const creadas = await db.query(
+      `insert into actividad (nombre_proyecto, lenguaje, codigo, archivo, estado, id_usuario)
+       values ($1, $2, $3, $4, 'analizando', $5) returning *`,
+      [nombre_proyecto, lenguaje, codigo || null, nombreArchivoGuardado, req.idUsuario]
+    );
+    actividad = creadas[0];
+  } catch (error) {
+    console.error("Error al crear la actividad:", error);
+    return res.status(500).json({ error: "No se pudo guardar la actividad." });
+  }
 
   try {
     const { analisis, planEstudio, temas } = await ia.analizarYGuardar(
@@ -168,6 +180,10 @@ app.post("/api/actividades", auth.verificarToken, subirArchivo.single("archivo")
 
     res.status(201).json({ actividad, analisis, planEstudio, temas });
   } catch (error) {
+    // si el analisis falla, la actividad no se queda "analizando" para siempre: vuelve a pendiente para poder reintentar
+    await db.query("update actividad set estado = 'pendiente' where id_actividad = $1", [actividad.id_actividad]).catch(() => {});
+    actividad.estado = "pendiente";
+
     res.status(502).json({ error: error.message, actividad });
   }
 });
