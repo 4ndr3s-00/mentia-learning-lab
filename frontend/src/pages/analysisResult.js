@@ -3,7 +3,7 @@ import header from "../components/header.js";
 import { navigate } from "../router.js";
 import { obtenerActividad } from "../api.js";
 
-// convierte un puntaje numerico en una palabra sencilla de calificacion
+
 function calificacionSegunPuntaje(puntaje) {
     if (puntaje >= 90) return "Excelente";
     if (puntaje >= 75) return "Bueno";
@@ -11,7 +11,7 @@ function calificacionSegunPuntaje(puntaje) {
     return "Necesita mejorar";
 }
 
-// convierte un texto con saltos de linea en una lista con viñetas para mostrarlo
+
 function textoAViñetas(texto) {
     return texto
         .split("\n")
@@ -26,7 +26,7 @@ const analysisResult = {
 
         return `
 
-            <div class="flex min-h-screen bg-gray-100">
+            <div class="min-h-screen bg-gray-100 lg:flex">
 
                 ${sidebar.render()}
 
@@ -210,7 +210,7 @@ const analysisResult = {
         document.getElementById("analysis-improvements").innerHTML = textoAViñetas(datos.analisis.aspectos_mejorar || "");
         document.getElementById("analysis-recommendation").textContent = datos.analisis.recomendacion;
 
-        // si subieron una imagen, se muestra tal cual
+        
         if (datos.archivoUrl && /\.(png|jpe?g|gif|webp)$/i.test(datos.archivoUrl)) {
             document.getElementById("analysis-image-section").classList.remove("hidden");
             document.getElementById("analysis-image").src = datos.archivoUrl;

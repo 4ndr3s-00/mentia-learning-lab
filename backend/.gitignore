@@ -1,9 +1,9 @@
-# dependencias instaladas, se regeneran con npm install
+
 node_modules
 
-# datos secretos, cada quien tiene los suyos
+
 .env
 
-# archivos subidos por los usuarios, no van al repositorio
+
 uploads/*
 !uploads/.gitkeep

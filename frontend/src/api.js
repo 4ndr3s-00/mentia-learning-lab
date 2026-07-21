@@ -1,11 +1,14 @@
-// aqui viven todas las llamadas al backend, para no repetir fetch() en cada pagina
 // vacio a proposito: el backend ahora sirve el frontend, asi que todo queda en el mismo origen
 const API_URL = "";
+
+// si el usuario no hace nada por este tiempo, se cierra la sesion sola
+const INACTIVIDAD_MAXIMA_MS = 30 * 60 * 1000;
 
 // guarda el token y los datos del usuario en el navegador, para recordar la sesion
 function guardarSesion(token, usuario) {
   localStorage.setItem("mentia_token", token);
   localStorage.setItem("mentia_usuario", JSON.stringify(usuario));
+  registrarActividad();
 }
 
 // lee el token guardado (o null si no hay sesion)
@@ -23,6 +26,19 @@ export function obtenerUsuario() {
 export function cerrarSesion() {
   localStorage.removeItem("mentia_token");
   localStorage.removeItem("mentia_usuario");
+  localStorage.removeItem("mentia_ultima_actividad");
+}
+
+// marca "ahora" como el ultimo momento en que el usuario hizo algo (click, teclas, navegacion)
+export function registrarActividad() {
+  localStorage.setItem("mentia_ultima_actividad", Date.now().toString());
+}
+
+// true si paso mas de 30 minutos desde la ultima actividad registrada
+export function sesionExpirada() {
+  const ultimaActividad = localStorage.getItem("mentia_ultima_actividad");
+  if (!ultimaActividad) return false;
+  return Date.now() - Number(ultimaActividad) > INACTIVIDAD_MAXIMA_MS;
 }
 
 // entra con correo y contraseña, guarda la sesion si funciona

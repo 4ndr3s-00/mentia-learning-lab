@@ -294,7 +294,7 @@ const login = {
             }
         });
 
-        // ocultar la contraseña
+        
         const togglePassword = document.getElementById("toggle-password");
         const passwordInput = document.getElementById("password");
 

@@ -9,7 +9,7 @@ const studyPlan = {
 
         return `
 
-            <div class="flex min-h-screen bg-gray-100">
+            <div class="min-h-screen bg-gray-100 lg:flex">
 
                 ${sidebar.render()}
 

@@ -7,7 +7,7 @@ import activities from "./pages/activities.js";
 import profile from "./pages/profile.js";
 import diagnostic from "./pages/diagnostic.js";
 import notFound from "./pages/notFound.js";
-import { obtenerToken } from "./api.js";
+import { obtenerToken, cerrarSesion, sesionExpirada, registrarActividad } from "./api.js";
 
 
 const routes = {
@@ -55,7 +55,14 @@ export function router() {
 
     let currentPath = window.location.pathname;
 
+    // si no ha hecho nada en 30 minutos, se cierra la sesion sola
+    if (obtenerToken() && sesionExpirada()) {
+        cerrarSesion();
+    }
+
     const haySesion = Boolean(obtenerToken());
+
+    if (haySesion) registrarActividad();
 
     // si no ha iniciado sesion y quiere ver una pagina protegida, lo mandamos al login
     if (!haySesion && currentPath !== "/") {
@@ -63,7 +70,6 @@ export function router() {
         currentPath = "/";
     }
 
-    // si ya inicio sesion y esta en el login, lo mandamos directo al dashboard
     if (haySesion && currentPath === "/") {
         history.replaceState(null, null, "/dashboard");
         currentPath = "/dashboard";

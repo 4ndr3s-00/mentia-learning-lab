@@ -9,7 +9,7 @@ const dashboard = {
 
         return `
 
-            <div class="flex min-h-screen bg-gray-100">
+            <div class="min-h-screen bg-gray-100 lg:flex">
 
                 ${sidebar.render()}
 
@@ -130,7 +130,7 @@ const dashboard = {
 
         sidebar.mounted();
 
-        // id de la ultima actividad, se llena cuando llega la respuesta del backend
+        
         let idUltimaActividad = null;
 
         document.getElementById("upload-button")?.addEventListener("click",

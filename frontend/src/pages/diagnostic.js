@@ -54,7 +54,7 @@ const PREGUNTAS = [
     },
 ];
 
-// la base de datos solo acepta estos 4 valores exactos para perfil_aprendizaje
+
 const PERFIL_PARA_BD = { visual: "Visual", auditivo: "Auditivo", kinestesico: "Kinestesico" };
 
 const NOMBRE_PERFIL = { Visual: "Visual", Auditivo: "Auditivo", Kinestesico: "Kinestésico", Mixto: "Mixto (un poco de cada uno)" };
@@ -65,7 +65,7 @@ const diagnostic = {
 
         return `
 
-            <div class="flex min-h-screen bg-gray-100">
+            <div class="min-h-screen bg-gray-100 lg:flex">
 
                 ${sidebar.render()}
 

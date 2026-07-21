@@ -3,14 +3,14 @@ import header from "../components/header.js";
 import { navigate } from "../router.js";
 import { obtenerActividades } from "../api.js";
 
-// pasa el estado guardado en la bd a un texto amigable para mostrar
+
 const ESTADOS = {
     completado: { texto: "Analizado", icono: "fa-solid fa-check", color: "text-green-600" },
     analizando: { texto: "En análisis", icono: "fa-solid fa-hourglass-half", color: "text-yellow-600" },
     pendiente: { texto: "Pendiente", icono: "fa-regular fa-clock", color: "text-yellow-600" },
 };
 
-// arma el html de una sola tarjeta de actividad
+
 function tarjetaActividad(actividad) {
     const estado = ESTADOS[actividad.estado] || ESTADOS.pendiente;
     const fecha = new Date(actividad.fecha_subida).toLocaleDateString("es-ES");
@@ -88,7 +88,7 @@ const activities = {
 
         return `
 
-            <div class="flex min-h-screen bg-gray-100">
+            <div class="min-h-screen bg-gray-100 lg:flex">
 
                 ${sidebar.render()}
 
