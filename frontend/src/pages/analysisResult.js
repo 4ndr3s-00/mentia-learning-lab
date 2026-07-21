@@ -1,7 +1,7 @@
 import sidebar from "../components/sidebar.js";
 import header from "../components/header.js";
 import { navigate } from "../router.js";
-import { obtenerActividad } from "../api.js";
+import { obtenerActividad, obtenerActividades } from "../api.js";
 
 
 function calificacionSegunPuntaje(puntaje) {
@@ -36,6 +36,16 @@ const analysisResult = {
                         "Resultado del análisis IA",
                         "Consulta el análisis generado automáticamente por Mentia."
                     )}
+
+                    <section id="activity-picker-section" class="bg-white rounded-2xl shadow-sm p-6 mt-8">
+
+                        <label for="activity-picker" class="block mb-3 text-gray-600 font-medium">
+                            Elige el código que quieres ver:
+                        </label>
+
+                        <select id="activity-picker" class="w-full sm:w-auto border border-gray-300 rounded-xl px-4 py-3 outline-none"></select>
+
+                    </section>
 
                     <section id="analysis-content" class="hidden">
 
@@ -171,22 +181,38 @@ const analysisResult = {
 
         sidebar.mounted();
 
-        const idActividad = new URLSearchParams(window.location.search).get("id");
+        let idActividad = new URLSearchParams(window.location.search).get("id");
 
         document.getElementById("study-plan-button")?.addEventListener("click", function () {
             navigate(`/study-plan?id=${idActividad}`);
         });
 
-        // si entraron aqui sin elegir una actividad, se manda a "mis actividades" para que elijan una
-        if (!idActividad) {
+        // el selector de actividades queda siempre visible para poder cambiar de una a otra sin perderlo
+        const analizadas = (await obtenerActividades()).filter((actividad) => actividad.estado === "completado");
+
+        if (analizadas.length === 0) {
+            document.getElementById("activity-picker-section").classList.add("hidden");
             document.getElementById("analysis-loading").innerHTML =
-                'Elige una actividad para ver su análisis. <a href="#" id="ir-a-actividades" class="text-violet-600 hover:underline">Ver mis actividades</a>';
-            document.getElementById("ir-a-actividades").addEventListener("click", (event) => {
+                'Todavía no tienes actividades analizadas. <a href="#" id="ir-a-subir" class="text-violet-600 hover:underline">Sube una actividad</a>';
+            document.getElementById("ir-a-subir").addEventListener("click", (event) => {
                 event.preventDefault();
-                navigate("/activities");
+                navigate("/upload");
             });
             return;
         }
+
+        // si no eligieron una actividad puntual (ej: desde el menu lateral), se muestra la mas reciente por defecto
+        if (!idActividad) idActividad = String(analizadas[0].id_actividad);
+
+        const selector = document.getElementById("activity-picker");
+        selector.innerHTML = analizadas.map((actividad) => `
+            <option value="${actividad.id_actividad}" ${String(actividad.id_actividad) === String(idActividad) ? "selected" : ""}>
+                ${actividad.nombre_proyecto} (${new Date(actividad.fecha_subida).toLocaleDateString("es-ES")})
+            </option>
+        `).join("");
+        selector.addEventListener("change", (event) => {
+            navigate(`/analysis?id=${event.target.value}`);
+        });
 
         const datos = await obtenerActividad(idActividad);
 
