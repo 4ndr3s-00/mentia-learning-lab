@@ -1,36 +1,36 @@
 # Mentia
 
-## Descripción
+## Description
 
-**Mentia** es una plataforma web orientada al apoyo del aprendizaje en programación. Permite que los estudiantes carguen código fuente o archivos de un proyecto para que sean analizados mediante inteligencia artificial, obteniendo fortalezas, oportunidades de mejora y un plan de estudio personalizado.
+**Mentia** is a web platform focused on supporting programming learning. It allows students to upload source code or project files to be analyzed using artificial intelligence, obtaining strengths, areas for improvement, and a personalized study plan.
 
-La aplicación está compuesta por tres componentes principales:
+The application is made up of three main components:
 
-- Un **frontend** desarrollado con HTML, JavaScript y Tailwind CSS.
-- Un **backend** desarrollado en Node.js y Express que gestiona la autenticación, las actividades y la comunicación con la base de datos y el servicio de inteligencia artificial.
-- Un **microservicio de IA** desarrollado en Python con FastAPI, encargado de enviar el código a la API de Google Gemini y procesar la respuesta.
+- A **frontend** built with HTML, JavaScript, and Tailwind CSS.
+- A **backend** built with Node.js and Express that handles authentication, activities, and communication with the database and the AI service.
+- An **AI microservice** built in Python with FastAPI, responsible for sending the code to the Google Gemini API and processing the response.
 
-Todo el proyecto se ejecuta de manera **local**.
-
----
-
-# Características
-
-- Inicio de sesión de usuarios.
-- Gestión del perfil del estudiante.
-- Carga de actividades.
-- Carga de archivos de código y proyectos comprimidos (.zip).
-- Análisis automático del código mediante inteligencia artificial.
-- Visualización de fortalezas y aspectos por mejorar.
-- Generación de un plan de estudio personalizado.
-- Consulta del historial de actividades.
+The entire project runs **locally**.
 
 ---
 
-# Arquitectura
+# Features
+
+- User login.
+- Student profile management.
+- Activity uploads.
+- Uploading code files and compressed projects (.zip).
+- Automatic code analysis via artificial intelligence.
+- Display of strengths and areas for improvement.
+- Generation of a personalized study plan.
+- Activity history lookup.
+
+---
+
+# Architecture
 
 ```text
-Usuario
+User
    │
    ▼
 Frontend
@@ -42,16 +42,16 @@ Backend
 (Node.js + Express)
    ├────────────► PostgreSQL 16
    │
-   └────────────► Microservicio IA
+   └────────────► AI Microservice
                     (Python + FastAPI)
                             │
                             ▼
-                   API de Google Gemini
+                   Google Gemini API
 ```
 
 ---
 
-# Tecnologías utilizadas
+# Technologies used
 
 ## Frontend
 
@@ -68,12 +68,12 @@ Backend
 - Multer
 - PostgreSQL (pg)
 
-## Base de datos
+## Database
 
 - PostgreSQL 16
 - DBeaver
 
-## Inteligencia Artificial
+## Artificial Intelligence
 
 - Python
 - FastAPI
@@ -81,46 +81,46 @@ Backend
 
 ---
 
-# Requisitos previos
+# Prerequisites
 
-Antes de ejecutar el proyecto es necesario contar con:
+Before running the project, you need to have:
 
-- Node.js 18 o superior.
-- Python 3.10 o superior.
+- Node.js 18 or higher.
+- Python 3.10 or higher.
 - PostgreSQL 16.
 - Git.
-- DBeaver (opcional).
-- Una API Key de Google Gemini.
+- DBeaver (optional).
+- A Google Gemini API Key.
 
 ---
 
-# Instalación
+# Installation
 
-## 1. Clonar el repositorio
+## 1. Clone the repository
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone <REPOSITORY_URL>
 
 cd mentia-learning-lab
 ```
 
 ---
 
-## 2. Configurar la base de datos
+## 2. Set up the database
 
-Crear una base de datos llamada:
+Create a database called:
 
 ```text
 mentia
 ```
 
-Posteriormente ejecutar el archivo:
+Then run the file:
 
 ```text
 database/schema.sql
 ```
 
-Si el proyecto incluye datos de prueba, ejecutar además:
+If the project includes test data, also run:
 
 ```text
 database/inserts.sql
@@ -128,79 +128,79 @@ database/inserts.sql
 
 ---
 
-## 3. Configurar el backend
+## 3. Set up the backend
 
-Ingresar a la carpeta:
+Go into the folder:
 
 ```bash
 cd backend
 ```
 
-Instalar las dependencias:
+Install the dependencies:
 
 ```bash
 npm install
 ```
 
-Crear un archivo llamado:
+Create a file named:
 
 ```text
 .env
 ```
 
-con la siguiente información:
+with the following content:
 
 ```env
 PORT=3000
 
-DATABASE_URL=postgres://USUARIO:CONTRASEÑA@localhost:5432/mentia
+DATABASE_URL=postgres://USER:PASSWORD@localhost:5432/mentia
 
-JWT_SECRET=UnaClaveSegura
+JWT_SECRET=YourSecureKey
 
 IA_ANALISIS_URL=http://127.0.0.1:8001/analizar
 ```
 
-Reemplazar **USUARIO** y **CONTRASEÑA** por las credenciales de PostgreSQL.
+Replace **USER** and **PASSWORD** with your PostgreSQL credentials.
 
 ---
 
-## 4. Configurar el microservicio de IA
+## 4. Set up the AI microservice
 
-Ingresar a la carpeta:
+Go into the folder:
 
 ```bash
 cd ia-analisis
 ```
 
-Instalar las dependencias:
+Install the dependencies:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-Crear un archivo:
+Create a file:
 
 ```text
 .env
 ```
 
-con el siguiente contenido:
+with the following content:
 
 ```env
-GEMINI_API_KEY=TU_API_KEY
+GEMINI_API_KEY=YOUR_API_KEY
 
 GEMINI_MODEL=gemini-2.5-flash-lite
 ```
 
-> **Nota:** Utilizar un modelo de Gemini disponible para la API utilizada.
+> **Note:** Use a Gemini model available for the API being used.
 
 ---
 
-# Ejecución del proyecto
+# Running the project
 
-La aplicación requiere ejecutar dos servicios.
+The application requires two services to be running.
 
-## Terminal 1 – Microservicio de IA
+## Terminal 1 – AI Microservice
 
 ```bash
 cd ia-analisis
@@ -208,7 +208,7 @@ cd ia-analisis
 python -m uvicorn main:app --reload --port 8001
 ```
 
-Si todo funciona correctamente aparecerá:
+If everything works correctly, you'll see:
 
 ```text
 Uvicorn running on http://127.0.0.1:8001
@@ -224,29 +224,29 @@ cd backend
 npm start
 ```
 
-Si el servidor inicia correctamente aparecerá:
+If the server starts correctly, you'll see:
 
 ```text
-Mentia corriendo en http://localhost:3000
+Mentia running at http://localhost:3000
 ```
 
 ---
 
-## Acceder a la aplicación
+## Accessing the application
 
-Abrir el navegador en:
+Open your browser at:
 
 ```text
 http://localhost:3000
 ```
 
-No es necesario ejecutar el frontend por separado, ya que el backend sirve automáticamente los archivos de la aplicación.
+There's no need to run the frontend separately, since the backend automatically serves the application's files.
 
 ---
 
-## Variante opcional: frontend con Vite (solo para desarrollo)
+## Optional variant: frontend with Vite (development only)
 
-El frontend no necesita instalación propia para usar la aplicación: el backend lo sirve directo como archivos estáticos. Esta variante solo es útil si quieres editar el frontend con recarga en caliente.
+The frontend doesn't need its own installation to use the application: the backend serves it directly as static files. This variant is only useful if you want to edit the frontend with hot reload.
 
 ```bash
 cd frontend
@@ -256,25 +256,25 @@ npm install
 npm run dev
 ```
 
-Esto levanta un servidor aparte (por defecto en `http://localhost:5173`). Como el frontend hace las peticiones a la API con rutas relativas (mismo origen), para que el login y las demás llamadas funcionen en este modo necesitas que el backend (Terminal 2) también esté corriendo y acceder vía `http://localhost:3000`, no por el puerto de Vite. Si no vas a tocar el frontend, omite este paso por completo.
+This spins up a separate server (by default at `http://localhost:5173`). Since the frontend makes API requests using relative paths (same origin), for login and other calls to work in this mode you need the backend (Terminal 2) to also be running, and you need to access it via `http://localhost:3000`, not through the Vite port. If you're not going to touch the frontend, skip this step entirely.
 
 ---
 
-# Flujo de funcionamiento
+# Workflow
 
-1. El usuario inicia sesión en la plataforma.
-2. Carga una actividad o un archivo de código.
-3. El backend recibe la información enviada desde el frontend.
-4. El backend envía la actividad al microservicio de inteligencia artificial.
-5. El microservicio consulta la API de Google Gemini.
-6. Gemini analiza el código y genera un diagnóstico.
-7. El resultado es enviado nuevamente al backend.
-8. El backend almacena el análisis y el plan de estudio en PostgreSQL.
-9. Finalmente, el usuario visualiza los resultados desde la plataforma.
+1. The user logs into the platform.
+2. Uploads an activity or a code file.
+3. The backend receives the information sent from the frontend.
+4. The backend sends the activity to the AI microservice.
+5. The microservice queries the Google Gemini API.
+6. Gemini analyzes the code and generates a diagnosis.
+7. The result is sent back to the backend.
+8. The backend stores the analysis and study plan in PostgreSQL.
+9. Finally, the user views the results on the platform.
 
 ---
 
-# Estructura del proyecto
+# Project structure
 
 ```text
 mentia-learning-lab/
@@ -312,13 +312,13 @@ mentia-learning-lab/
 
 ---
 
-# Consideraciones
+# Notes
 
-- La aplicación está diseñada para ejecutarse en un entorno local.
-- Es necesario que PostgreSQL se encuentre en ejecución antes de iniciar el backend.
-- El microservicio de inteligencia artificial debe estar iniciado para que la funcionalidad de análisis de código esté disponible.
-- La API Key de Google Gemini debe ser válida y contar con permisos para utilizar el modelo configurado.
+- The application is designed to run in a local environment.
+- PostgreSQL must be running before starting the backend.
+- The AI microservice must be running for the code analysis feature to be available.
+- The Google Gemini API Key must be valid and have permissions to use the configured model.
 
 ---
 
-# Autores
+# Authors
