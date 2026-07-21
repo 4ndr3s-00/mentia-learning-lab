@@ -43,19 +43,19 @@ const login = {
 
                     <!-- Hero -->
 
-                    <div class="relative h-[540px] mt-10">
+                    <div class="relative h-[320px] sm:h-[420px] lg:h-[540px] mt-10 overflow-hidden">
 
                         <img src="/img/cuadro3-login.png"
-                            class="absolute left-0 top-20 w-56">
+                            class="absolute left-0 top-10 sm:top-16 lg:top-20 w-28 sm:w-40 lg:w-56">
 
                         <img src="/img/estudiante-login.png"
-                            class="absolute left-1/2 -translate-x-1/2 bottom-4 w-[950px]">
+                            class="absolute left-1/2 -translate-x-1/2 bottom-4 w-[85%] max-w-[420px] lg:max-w-[600px]">
 
                         <img src="/img/cuadro2-login.png"
-                            class="absolute right-0 top-2 w-56">
+                            class="absolute right-0 top-2 w-28 sm:w-40 lg:w-56">
 
                         <img src="/img/cuadro1-login.png"
-                            class="absolute right-6 bottom-4 w-56">
+                            class="absolute right-6 bottom-4 w-28 sm:w-40 lg:w-56">
 
                     </div>
 

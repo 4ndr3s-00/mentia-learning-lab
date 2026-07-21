@@ -94,10 +94,19 @@ Código entregado:
 3. nombres enganosos (funciones o variables cuyo nombre no coincide con lo que realmente hacen)
 4. imports que se agregan pero nunca se usan
 
+# como calcular el puntaje (para que sea preciso y no arbitrario)
+parte de una base de 100 y resta segun la severidad real de cada debilidad que vayas a reportar en "debilidades":
+- bug de logica que falla en casos de uso normales (no solo en casos borde extremos): -20 a -25 puntos
+- bug de logica que solo falla en casos borde (0, negativos, vacio, null/None, tipos invalidos): -10 a -15 puntos
+- problema de seguridad (credenciales quemadas, falta de validacion de entrada, inyeccion sql, eval inseguro): -15 a -20 puntos
+- nombre enganoso de funcion o variable: -5 puntos
+- import agregado pero nunca usado: -3 puntos
+no bajes puntos por estilo o preferencias subjetivas que no esten en la lista de arriba. si no encontraste ninguna debilidad real, el puntaje debe ser 90 o mas. el puntaje final debe ser coherente con la cantidad y severidad de las debilidades que listaste: no reportes varios bugs criticos y luego pongas un puntaje alto.
+
 # luego responde UNICAMENTE con el json válido, sin texto antes ni despues
 
 {{
-  "puntaje": <numero entero de 0 a 100>,
+  "puntaje": <numero entero de 0 a 100, calculado segun la regla de arriba>,
   "resumen": "<una frase corta resumiendo el analisis, sin simbolos raros>",
   "fortalezas": ["<punto fuerte 1>", "<punto fuerte 2>"],
   "debilidades": ["<problema 1, un solo problema por punto>", "<problema 2>", "<problema 3>"],

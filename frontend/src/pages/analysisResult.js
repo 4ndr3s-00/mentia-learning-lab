@@ -137,13 +137,15 @@ const analysisResult = {
 
                     </div>
 
-                    <section class="bg-white rounded-2xl shadow-sm p-6 mt-6 mb-8">
+                    <section class="bg-white rounded-2xl shadow-sm p-6 mt-6 mb-8 text-center">
 
                         <h3 class="text-lg font-semibold text-gray-800">
-                            Recomendación de Mentia IA
+                            ¿Quieres saber cómo mejorar?
                         </h3>
 
-                        <p id="analysis-recommendation" class="text-gray-600 leading-7 mt-4"></p>
+                        <p class="text-gray-500 mt-2">
+                            Revisa el plan de estudio generado a partir de este análisis.
+                        </p>
 
                         <button id="study-plan-button" class="mt-6 w-full sm:w-auto bg-[#6c4ef6] hover:bg-violet-700 text-white px-6 py-3 rounded-xl transition">
                             Ver plan de estudio
@@ -208,7 +210,6 @@ const analysisResult = {
         document.getElementById("analysis-summary").textContent = datos.analisis.resumen;
         document.getElementById("analysis-strengths").innerHTML = textoAViñetas(datos.analisis.fortalezas || "");
         document.getElementById("analysis-improvements").innerHTML = textoAViñetas(datos.analisis.aspectos_mejorar || "");
-        document.getElementById("analysis-recommendation").textContent = datos.analisis.recomendacion;
 
         
         if (datos.archivoUrl && /\.(png|jpe?g|gif|webp)$/i.test(datos.archivoUrl)) {

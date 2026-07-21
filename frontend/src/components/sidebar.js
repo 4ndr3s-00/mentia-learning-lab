@@ -19,7 +19,7 @@ const sidebar = {
 
             <!-- Sidebar -->
 
-            <aside id="sidebar" class="fixed lg:sticky lg:top-0 top-0 left-0 z-50 w-64 h-screen bg-white border-r border-gray-200 flex flex-col p-6 -translate-x-full lg:translate-x-0 transition-transform duration-300">
+            <aside id="sidebar" class="fixed lg:sticky lg:top-0 top-0 left-0 z-50 w-64 h-screen bg-white border-r border-gray-200 flex flex-col p-6 -translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto">
 
                 <!-- Logo -->
 
@@ -151,7 +151,7 @@ const sidebar = {
 
             if (window.innerWidth < 1024) {
 
-                sidebar.classList.add("-translate-x-full");
+                sidebarElement.classList.add("-translate-x-full");
                 overlay.classList.add("hidden");
 
             }
@@ -192,7 +192,7 @@ const sidebar = {
 
             event.preventDefault();
 
-            navigate("/activities");
+            navigate("/analysis");
 
             closeSidebar();
 
@@ -202,7 +202,7 @@ const sidebar = {
 
             event.preventDefault();
 
-            navigate("/activities");
+            navigate("/study-plan");
 
             closeSidebar();
 
@@ -264,12 +264,12 @@ const sidebar = {
 
             if (window.innerWidth >= 1024) {
 
-                sidebar.classList.remove("-translate-x-full");
+                sidebarElement.classList.remove("-translate-x-full");
                 overlay.classList.add("hidden");
 
             } else {
 
-                sidebar.classList.add("-translate-x-full");
+                sidebarElement.classList.add("-translate-x-full");
 
             }
 
