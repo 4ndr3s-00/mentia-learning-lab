@@ -75,7 +75,6 @@ async def leer_codigo_de_archivos(archivos: List[UploadFile]) -> str:
 def construir_prompt(titulo: str, lenguaje: str, codigo: str) -> str:
     return f"""
 Eres un mentor técnico senior revisando la actividad de un estudiante de programación. Se muy riguroso: no inventes problemas que no esten realmente en el codigo, y no te saltes problemas reales que si esten.
-Eres un mentor técnico revisando la actividad de un estudiante de programación.
 
 Título de la actividad: {titulo}
 Lenguaje: {lenguaje}
@@ -92,9 +91,6 @@ Código entregado:
 # busca estos 4 tipos de problemas, en este orden de prioridad:
 1. bugs de logica real (division por cero, casos borde sin manejar, recursion sin caso base, variables o funciones usadas antes de existir, comparaciones o condiciones que nunca se cumplen, off-by-one, tipos incompatibles, etc)
 2. problemas de seguridad (contraseñas o credenciales quemadas en el codigo, falta de validacion de datos de entrada, inyeccion sql, eval de datos externos, etc)
-# revisa el código a fondo, funcion por funcion, buscando estos 4 tipos de problemas:
-1. bugs de logica real (division por cero, casos borde, recursion sin caso base, variables o funciones que no existen, etc)
-2. problemas de seguridad (contraseñas o credenciales quemadas en el codigo, falta de validacion de datos, etc)
 3. nombres enganosos (funciones o variables cuyo nombre no coincide con lo que realmente hacen)
 4. imports que se agregan pero nunca se usan
 
@@ -114,8 +110,6 @@ Reglas:
 - no juntes varios problemas distintos en un mismo punto, cada uno va separado
 - si encuentras problemas de los 4 tipos de arriba, cubrelos todos antes de repetir el mismo tipo
 - si el codigo esta genuinamente bien y no encuentras problemas reales, dilo en vez de inventar debilidades menores
-- no juntes varios problemas distintos en un mismo punto, cada uno va separado
-- si encuentras problemas de los 4 tipos de arriba, cubrelos todos antes de repetir el mismo tipo
 - se breve y directo en cada texto, nada de relleno ni simbolos de markdown dentro de los textos
 """
 
@@ -155,24 +149,15 @@ async def analizar_actividad(
 
     generation_config = {
         "temperature": 0.2,        # baja para respuestas mas consistentes
-        "maxOutputTokens": 2048,   # el analisis pide mas detalle, asi que necesita mas espacio para no cortarse
+        "maxOutputTokens": 4096,   # con thinkingLevel "medium" el modelo gasta 1500-2000 tokens solo pensando, asi que 2048 no alcanzaba y cortaba el json a la mitad
     }
 
-    
     if "gemini-3" in GEMINI_MODEL:
         generation_config["thinkingConfig"] = {"thinkingLevel": "medium"}
     else:
         # gemini-2.5 y los alias como "gemini-flash-latest" piensan por defecto;
         # sin este limite gastan todo maxOutputTokens pensando y nunca escriben el json final
         generation_config["thinkingConfig"] = {"thinkingBudget": 1024}
-        "maxOutputTokens": 2048,   # el analisis ahora pide mas detalle, asi que necesita mas espacio para no cortarse
-    }
-
-    # el parametro para "pensar menos" (ahorra tokens) cambia de nombre segun el modelo
-    if "gemini-3" in GEMINI_MODEL:
-        generation_config["thinkingConfig"] = {"thinkingLevel": "low"}
-    elif "gemini-2.5" in GEMINI_MODEL:
-        generation_config["thinkingConfig"] = {"thinkingBudget": 512}
 
     payload = {
         "contents": [
@@ -196,7 +181,6 @@ async def analizar_actividad(
         partes = data["candidates"][0]["content"]["parts"]
         # nos saltamos las partes de "pensamiento" (thought) del modelo, solo nos interesa la respuesta final
         texto_generado = "".join(p["text"] for p in partes if p.get("text") and not p.get("thought"))
-        texto_generado = data["candidates"][0]["content"]["parts"][0]["text"]
         resultado = limpiar_json(texto_generado)
     except (KeyError, IndexError, json.JSONDecodeError) as e:
         # si algo sale mal, mostramos la respuesta cruda para poder revisarla
