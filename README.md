@@ -244,6 +244,22 @@ No es necesario ejecutar el frontend por separado, ya que el backend sirve autom
 
 ---
 
+## Variante opcional: frontend con Vite (solo para desarrollo)
+
+El frontend no necesita instalación propia para usar la aplicación: el backend lo sirve directo como archivos estáticos. Esta variante solo es útil si quieres editar el frontend con recarga en caliente.
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+Esto levanta un servidor aparte (por defecto en `http://localhost:5173`). Como el frontend hace las peticiones a la API con rutas relativas (mismo origen), para que el login y las demás llamadas funcionen en este modo necesitas que el backend (Terminal 2) también esté corriendo y acceder vía `http://localhost:3000`, no por el puerto de Vite. Si no vas a tocar el frontend, omite este paso por completo.
+
+---
+
 # Flujo de funcionamiento
 
 1. El usuario inicia sesión en la plataforma.
@@ -272,11 +288,15 @@ mentia-learning-lab/
 │   └── package.json
 │
 ├── frontend/
-│   ├── assets/
-│   ├── login/
-│   ├── actividades/
-│   ├── pag-subirarc/
-│   └── index.html
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── components/
+│   │   ├── api.js
+│   │   ├── router.js
+│   │   └── main.js
+│   ├── public/img/
+│   ├── index.html
+│   └── package.json
 │
 ├── ia-analisis/
 │   ├── main.py
