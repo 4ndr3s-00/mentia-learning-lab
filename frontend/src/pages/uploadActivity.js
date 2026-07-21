@@ -1,6 +1,7 @@
 import sidebar from "../components/sidebar.js";
 import header from "../components/header.js";
 import { navigate } from "../router.js";
+import { crearActividad } from "../api.js";
 
 const upload = {
     render() {
@@ -11,23 +12,7 @@ const upload = {
 
             description: "Sube tu archivo o escribe tu código directamente para iniciar el análisis interactivo.",
 
-            exampleCode: `
-    def analizar_condiciones(edad, tiene_permiso):
-
-        """
-        Función para evaluar si un estudiante puede acceder
-        al material avanzado.
-        """
-
-        if edad >= 18 or tiene_permiso:
-            return "Acceso concedido"
-
-        elif edad < 18 and not tiene_permiso:
-            return "Acceso denegado"
-
-        else:
-            return "Estado no determinado"
-            `,
+            placeholderCode: "# Pon tu código aquí...",
 
             languages: [
                 "Python",
@@ -42,7 +27,7 @@ const upload = {
 
         return `
 
-            <div class="flex min-h-screen bg-gray-100">
+            <div class="min-h-screen bg-gray-100 lg:flex">
 
                 ${sidebar.render()}
 
@@ -95,9 +80,7 @@ const upload = {
 
                                 <!-- Código -->
 
-                                <textarea id="code-editor" spellcheck="false" class="w-full h-[620px] resize-none outline-none p-6 bg-gray-50 font-mono text-[15px] leading-7">
-                                    ${workspace.exampleCode}
-                                </textarea>
+                                <textarea id="code-editor" spellcheck="false" placeholder="${workspace.placeholderCode}" class="w-full h-[620px] resize-none outline-none p-6 bg-gray-50 font-mono text-[15px] leading-7"></textarea>
 
                             </section>
 
@@ -274,17 +257,40 @@ const upload = {
 
         });
 
-        analyzeButton?.addEventListener("click", () => {
+        analyzeButton?.addEventListener("click", async () => {
 
             const codigo = textarea.value.trim();
-            const archivo = fileInput.files.length;
+            const archivo = fileInput.files[0];
 
-            if (codigo === "" && archivo === 0) {
+            if (codigo === "" && !archivo) {
                 alert("Debes escribir un código o subir un archivo.");
                 return;
             }
 
-            navigate("/analysis");
+            if (projectName.value.trim() === "") {
+                alert("Escribe un nombre para el proyecto.");
+                return;
+            }
+
+            // arma los datos del formulario para mandarlos al backend
+            const datosFormulario = new FormData();
+            datosFormulario.append("nombre_proyecto", projectName.value.trim());
+            datosFormulario.append("lenguaje", language.value.trim());
+            datosFormulario.append("codigo", codigo);
+            if (archivo) datosFormulario.append("archivo", archivo);
+
+            const textoOriginal = analyzeButton.innerHTML;
+            analyzeButton.disabled = true;
+            analyzeButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analizando con IA...';
+
+            try {
+                const resultado = await crearActividad(datosFormulario);
+                navigate(`/analysis?id=${resultado.actividad.id_actividad}`);
+            } catch (error) {
+                alert(error.message);
+                analyzeButton.disabled = false;
+                analyzeButton.innerHTML = textoOriginal;
+            }
         });
 
     }

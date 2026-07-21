@@ -1,41 +1,15 @@
 import sidebar from "../components/sidebar.js";
 import header from "../components/header.js";
+import { navigate } from "../router.js";
+import { obtenerActividad } from "../api.js";
 
 const studyPlan = {
 
     render() {
 
-        const studyPlan = {
-
-            objective: {
-
-                goal: "Mejorar el uso de estructuras condicionales y funciones para desarrollar soluciones más organizadas y eficientes.",
-
-                duration: "2 semanas"
-
-            },
-
-            topics: [
-
-                "Condicionales",
-
-                "Funciones",
-
-                "Manejo de errores"
-
-            ],
-
-            recommendation: {
-
-                description: "Se detectó un buen dominio de la lógica básica, pero aún es recomendable reforzar el uso de funciones y el manejo de errores para desarrollar soluciones más robustas."
-
-            }
-
-        };
-
         return `
 
-            <div class="flex min-h-screen bg-gray-100">
+            <div class="min-h-screen bg-gray-100 lg:flex">
 
                 ${sidebar.render()}
 
@@ -46,88 +20,84 @@ const studyPlan = {
                         "Generado a partir del análisis más reciente de tu actividad."
                     )}
 
-                    <!-- Objetivo -->
+                    <section id="study-plan-content" class="hidden">
 
-                    <section class="bg-white rounded-2xl shadow-sm p-6 mt-8">
+                        <!-- Objetivo -->
 
-                        <div class="flex items-center gap-3 mb-4">
+                        <section class="bg-white rounded-2xl shadow-sm p-6 mt-8">
 
-                            <i class="fa-solid fa-bullseye text-2xl text-violet-600"></i>
+                            <div class="flex items-center gap-3 mb-4">
 
-                            <h2 class="text-xl font-semibold text-gray-800">
-                                Objetivo del plan
-                            </h2>
+                                <i class="fa-solid fa-bullseye text-2xl text-violet-600"></i>
 
-                        </div>
+                                <h2 class="text-xl font-semibold text-gray-800">
+                                    Objetivo del plan
+                                </h2>
 
-                        <p class="text-gray-600 leading-7">
-                            ${studyPlan.objective.goal}
-                        </p>
+                            </div>
 
-                        <div class="mt-6 inline-flex items-center bg-violet-100 text-violet-700 px-4 py-2 rounded-full font-medium">
-                            <i class="fa-regular fa-clock mr-2"></i>
-                            Duración estimada: ${studyPlan.objective.duration}
-                        </div>
+                            <p id="plan-goal" class="text-gray-600 leading-7"></p>
 
-                    </section>
+                            <div class="mt-6 inline-flex items-center bg-violet-100 text-violet-700 px-4 py-2 rounded-full font-medium">
+                                <i class="fa-regular fa-clock mr-2"></i>
+                                Duración estimada: <span id="plan-duration"></span>
+                            </div>
 
-                    <!-- Temas recomendados -->
+                        </section>
 
-                    <section class="bg-white rounded-2xl shadow-sm p-6 mt-6">
+                        <!-- Temas recomendados -->
 
-                        <div class="flex items-center gap-3 mb-3">
+                        <section class="bg-white rounded-2xl shadow-sm p-6 mt-6">
 
-                            <i class="fa-solid fa-book-open text-2xl text-violet-600"></i>
+                            <div class="flex items-center gap-3 mb-3">
 
-                            <h2 class="text-xl font-semibold text-gray-800">
-                                Temas recomendados
-                            </h2>
+                                <i class="fa-solid fa-book-open text-2xl text-violet-600"></i>
 
-                        </div>
+                                <h2 class="text-xl font-semibold text-gray-800">
+                                    Temas recomendados
+                                </h2>
 
-                        <p class="text-gray-500 mb-6">
-                            Estos temas fueron seleccionados automáticamente a partir del análisis de tu actividad.
-                        </p>
+                            </div>
 
-                        <div class="space-y-4">
-
-                            ${studyPlan.topics.map(topic => ` <div class="flex items-center gap-4 bg-violet-50 rounded-xl px-5 py-4">
-                                    <i class="fa-solid fa-check text-violet-600"></i>
-                                    <span class="text-gray-700 font-medium">
-                                        ${topic}
-                                    </span>
-                                </div>`).join("")}
-                        </div>
-
-                    </section>
-
-                    <!-- Recomendación IA -->
-
-                    <section class="bg-white rounded-2xl shadow-sm p-6 mt-6 mb-8">
-
-                        <div class="flex items-center gap-3 mb-4">
-
-                            <i class="fa-solid fa-brain text-2xl text-violet-600"></i>
-
-                            <h2 class="text-xl font-semibold text-gray-800">
-                                Recomendación de Mentia IA
-                            </h2>
-
-                        </div>
-
-                        <p class="text-gray-500 mb-5">
-                            Esta recomendación fue generada automáticamente con base en el análisis de tu actividad.
-                        </p>
-
-                        <div class="bg-violet-50 rounded-2xl p-5">
-
-                            <p class="text-gray-700 leading-7">
-                                ${studyPlan.recommendation.description}
+                            <p class="text-gray-500 mb-6">
+                                Estos temas fueron seleccionados automáticamente a partir del análisis de tu actividad.
                             </p>
 
-                        </div>
+                            <div id="plan-topics" class="space-y-4"></div>
+
+                        </section>
+
+                        <!-- Recomendación IA -->
+
+                        <section class="bg-white rounded-2xl shadow-sm p-6 mt-6 mb-8">
+
+                            <div class="flex items-center gap-3 mb-4">
+
+                                <i class="fa-solid fa-brain text-2xl text-violet-600"></i>
+
+                                <h2 class="text-xl font-semibold text-gray-800">
+                                    Recomendación de Mentia IA
+                                </h2>
+
+                            </div>
+
+                            <p class="text-gray-500 mb-5">
+                                Esta recomendación fue generada automáticamente con base en el análisis de tu actividad.
+                            </p>
+
+                            <div class="bg-violet-50 rounded-2xl p-5">
+
+                                <p id="plan-recommendation" class="text-gray-700 leading-7"></p>
+
+                            </div>
+
+                        </section>
 
                     </section>
+
+                    <p id="plan-loading" class="text-center text-gray-500 mt-10">
+                        Cargando plan de estudio...
+                    </p>
 
                 </main>
 
@@ -137,9 +107,45 @@ const studyPlan = {
 
     },
 
-    mounted() {
+    async mounted() {
 
         sidebar.mounted();
+
+        const idActividad = new URLSearchParams(window.location.search).get("id");
+
+        // si entraron aqui sin elegir una actividad, se manda a "mis actividades" para que elijan una
+        if (!idActividad) {
+            document.getElementById("plan-loading").innerHTML =
+                'Elige una actividad para ver su plan de estudio. <a href="#" id="ir-a-actividades" class="text-violet-600 hover:underline">Ver mis actividades</a>';
+            document.getElementById("ir-a-actividades").addEventListener("click", (event) => {
+                event.preventDefault();
+                navigate("/activities");
+            });
+            return;
+        }
+
+        const datos = await obtenerActividad(idActividad);
+
+        if (!datos.planEstudio) {
+            document.getElementById("plan-loading").textContent = "Esta actividad todavía no tiene un plan de estudio.";
+            return;
+        }
+
+        document.getElementById("plan-loading").classList.add("hidden");
+        document.getElementById("study-plan-content").classList.remove("hidden");
+
+        document.getElementById("plan-goal").textContent = datos.planEstudio.objetivo;
+        document.getElementById("plan-duration").textContent = datos.planEstudio.duracion;
+        document.getElementById("plan-recommendation").textContent = datos.planEstudio.recomendacion_general;
+
+        document.getElementById("plan-topics").innerHTML = datos.temas.map((tema) => `
+            <div class="flex items-center gap-4 bg-violet-50 rounded-xl px-5 py-4">
+                <i class="fa-solid fa-check text-violet-600"></i>
+                <span class="text-gray-700 font-medium">
+                    ${tema.nombre}
+                </span>
+            </div>
+        `).join("");
 
     }
 

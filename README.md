@@ -1,153 +1,304 @@
 # Mentia
 
-Mentia is an adaptive learning platform that diagnoses a student's learning profile, recommends personalized study methodologies, and measures their effectiveness through a dynamic ranking system.
+## Descripción
 
-Instead of relying on AI/ML models, Mentia's core logic is fully rule-based: a weighted scoring formula across three learning dimensions, an if/else decision tree that maps students into four learner profiles, and SQL aggregation to rank methodology effectiveness over time.
+**Mentia** es una plataforma web orientada al apoyo del aprendizaje en programación. Permite que los estudiantes carguen código fuente o archivos de un proyecto para que sean analizados mediante inteligencia artificial, obteniendo fortalezas, oportunidades de mejora y un plan de estudio personalizado.
 
-## Table of Contents
+La aplicación está compuesta por tres componentes principales:
 
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Current Status](#current-status)
-- [Getting Started](#getting-started)
-- [Git Workflow](#git-workflow)
-- [Roadmap](#roadmap)
-- [License](#license)
+- Un **frontend** desarrollado con HTML, JavaScript y Tailwind CSS.
+- Un **backend** desarrollado en Node.js y Express que gestiona la autenticación, las actividades y la comunicación con la base de datos y el servicio de inteligencia artificial.
+- Un **microservicio de IA** desarrollado en Python con FastAPI, encargado de enviar el código a la API de Google Gemini y procesar la respuesta.
 
-## Overview
+Todo el proyecto se ejecuta de manera **local**.
 
-Mentia helps students understand *how* they learn best. Users go through a short diagnostic, get classified into one of four learner profiles, and receive study methodology recommendations tailored to that profile. As students submit activities and track progress, a ranking engine evaluates which methodologies are actually working, so recommendations keep improving over time.
+---
 
-## Key Features
+# Características
 
-- **User authentication** — registration and login with secure password handling.
-- **Diagnostic engine** — a short assessment scores students across three learning dimensions and classifies them into one of four learner profiles using a rule-based (if/else) decision tree.
-- **Personalized recommendations** — study methodologies suggested based on the student's profile.
-- **Activity submissions** — students upload academic activities to track progress over time.
-- **Dynamic ranking** — a ranking engine aggregates submission and methodology data with SQL to surface which methodologies produce the best results.
-- **Admin panel** — management view for overseeing users, methodologies, and platform data.
+- Inicio de sesión de usuarios.
+- Gestión del perfil del estudiante.
+- Carga de actividades.
+- Carga de archivos de código y proyectos comprimidos (.zip).
+- Análisis automático del código mediante inteligencia artificial.
+- Visualización de fortalezas y aspectos por mejorar.
+- Generación de un plan de estudio personalizado.
+- Consulta del historial de actividades.
 
-## Tech Stack
+---
 
-**Backend**
-- Python 3 with [FastAPI](https://fastapi.tiangolo.com/)
-- PostgreSQL as the primary database
-- SQLAlchemy ORM
+# Arquitectura
 
-**Frontend**
-- Vanilla JavaScript SPA (no framework)
-- [Vite](https://vitejs.dev/) as the build tool
-- [Tailwind CSS](https://tailwindcss.com/) for styling
-
-**Tooling & Workflow**
-- Git with GitFlow branching (`main` / `develop` as permanent branches; `feature/`, `fix/`, `hotfix/`, `release/` as temporary branches)
-- [Conventional Commits](https://www.conventionalcommits.org/) for commit messages
-
-## Project Structure
-
-```
-mentia-learning-lab/
-├── backend/
-│   ├── app/
-│   │   ├── core/          # App configuration and database setup
-│   │   ├── models/        # SQLAlchemy models (user, profile, submission, methodology, ranking)
-│   │   ├── routers/       # API endpoints (auth, users, profiles, submissions, methodologies, ranking, admin)
-│   │   ├── schemas/       # Pydantic schemas
-│   │   ├── services/      # Business logic (diagnostic engine, recommendation engine, ranking engine)
-│   │   ├── utils/         # Shared utilities (security, etc.)
-│   │   └── main.py        # FastAPI application entry point
-│   ├── tests/
-│   ├── requirements.txt
-│   └── .env.example
-├── frontend/
-│   ├── src/
-│   │   ├── api/           # API client
-│   │   ├── components/    # Shared UI components (navbar, etc.)
-│   │   ├── views/         # SPA views (login, dashboard, diagnostic, submissions, ranking, admin)
-│   │   ├── styles/        # Tailwind entry point
-│   │   ├── main.js        # App entry point
-│   │   └── router.js      # Client-side routing
-│   ├── login/              # Standalone login/register pages (legacy UI)
-│   ├── actividades/         # Standalone "my activities" page (legacy UI)
-│   ├── pag-subirarc/        # Standalone "upload activity" page (legacy UI)
-│   ├── index.html           # Standalone AI-result dashboard page (legacy UI)
-│   ├── vite.config.js
-│   └── tailwind.config.js
-├── database/
-│   └── er_diagram.md      # Entity-relationship diagram
-├── docs/
-│   ├── documento_tecnico.md
-│   ├── historias_usuario.md
-│   └── product_backlog.md
-└── README.md
+```text
+Usuario
+   │
+   ▼
+Frontend
+(HTML + JavaScript + Tailwind CSS)
+   │
+HTTP / JSON
+   ▼
+Backend
+(Node.js + Express)
+   ├────────────► PostgreSQL 16
+   │
+   └────────────► Microservicio IA
+                    (Python + FastAPI)
+                            │
+                            ▼
+                   API de Google Gemini
 ```
 
-## Current Status
+---
 
-Mentia is under active development.
+# Tecnologías utilizadas
 
-- The **legacy frontend pages** (`login/`, `actividades/`, `pag-subirarc/`, `index.html`) are functional static HTML/CSS/JS screens built early in the project to validate the UI/UX flow (auth, activity upload, activity history, AI-result dashboard).
-- The **new modular architecture** — the FastAPI backend (`backend/app/`) and the Vite-based SPA (`frontend/src/`) — is scaffolded with its full intended file structure (routers, models, schemas, services, views, etc.), but implementation is still in progress. Sprint 1 is focused on the authentication module.
-- Documentation (`docs/`, `database/er_diagram.md`) is being written alongside the implementation.
+## Frontend
 
-The goal is to progressively migrate the functionality proven in the legacy pages into the FastAPI + SPA architecture.
+- HTML5
+- JavaScript (Vanilla)
+- Tailwind CSS
 
-## Getting Started
+## Backend
 
-> ⚠️ The backend is still under construction — endpoints and business logic are being implemented sprint by sprint. The steps below reflect the intended setup once the backend is functional.
+- Node.js
+- Express.js
+- JSON Web Token (JWT)
+- bcryptjs
+- Multer
+- PostgreSQL (pg)
 
-### Backend (FastAPI)
+## Base de datos
+
+- PostgreSQL 16
+- DBeaver
+
+## Inteligencia Artificial
+
+- Python
+- FastAPI
+- Google Gemini API
+
+---
+
+# Requisitos previos
+
+Antes de ejecutar el proyecto es necesario contar con:
+
+- Node.js 18 o superior.
+- Python 3.10 o superior.
+- PostgreSQL 16.
+- Git.
+- DBeaver (opcional).
+- Una API Key de Google Gemini.
+
+---
+
+# Instalación
+
+## 1. Clonar el repositorio
+
+```bash
+git clone <URL_DEL_REPOSITORIO>
+
+cd mentia-learning-lab
+```
+
+---
+
+## 2. Configurar la base de datos
+
+Crear una base de datos llamada:
+
+```text
+mentia
+```
+
+Posteriormente ejecutar el archivo:
+
+```text
+database/schema.sql
+```
+
+Si el proyecto incluye datos de prueba, ejecutar además:
+
+```text
+database/inserts.sql
+```
+
+---
+
+## 3. Configurar el backend
+
+Ingresar a la carpeta:
 
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate      # on Windows: venv\Scripts\activate
-pip install -r requirements.txt
-cp .env.example .env          # fill in your database credentials
-uvicorn app.main:app --reload
 ```
 
-### Frontend (Vite SPA)
+Instalar las dependencias:
 
 ```bash
-cd frontend
 npm install
-npm run dev
 ```
 
-### Legacy standalone pages
+Crear un archivo llamado:
 
-These pages don't require a build step — open them directly in the browser:
-
-```
-frontend/login/login.html
-frontend/index.html
-frontend/actividades/actividades.html
-frontend/pag-subirarc/pag-subirarch.html
+```text
+.env
 ```
 
-## Git Workflow
+con la siguiente información:
 
-This project follows **GitFlow**:
+```env
+PORT=3000
 
-- `main` and `develop` are permanent branches.
-- `feature/*`, `fix/*`, `hotfix/*`, and `release/*` are temporary branches, created from and merged back into `develop` (or `main` for hotfixes).
-- Commits follow the **Conventional Commits** format (e.g. `feat: add login endpoint`, `fix: correct ranking query`).
+DATABASE_URL=postgres://USUARIO:CONTRASEÑA@localhost:5432/mentia
 
-## Roadmap
+JWT_SECRET=UnaClaveSegura
 
-- [x] Project scaffolding (backend + frontend structure)
-- [x] Legacy UI screens for auth, activity upload, activity history, and AI-result dashboard
-- [ ] Authentication module (Sprint 1)
-- [ ] Diagnostic engine (three-dimension scoring + four-profile classification)
-- [ ] Recommendation engine
-- [ ] Submissions module
-- [ ] Ranking engine
-- [ ] Admin panel
-- [ ] Migrate legacy pages into the Vite SPA
+IA_ANALISIS_URL=http://127.0.0.1:8001/analizar
+```
 
-## License
+Reemplazar **USUARIO** y **CONTRASEÑA** por las credenciales de PostgreSQL.
 
-© Mentia
+---
+
+## 4. Configurar el microservicio de IA
+
+Ingresar a la carpeta:
+
+```bash
+cd ia-analisis
+```
+
+Instalar las dependencias:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Crear un archivo:
+
+```text
+.env
+```
+
+con el siguiente contenido:
+
+```env
+GEMINI_API_KEY=TU_API_KEY
+
+GEMINI_MODEL=gemini-2.5-flash-lite
+```
+
+> **Nota:** Utilizar un modelo de Gemini disponible para la API utilizada.
+
+---
+
+# Ejecución del proyecto
+
+La aplicación requiere ejecutar dos servicios.
+
+## Terminal 1 – Microservicio de IA
+
+```bash
+cd ia-analisis
+
+python -m uvicorn main:app --reload --port 8001
+```
+
+Si todo funciona correctamente aparecerá:
+
+```text
+Uvicorn running on http://127.0.0.1:8001
+```
+
+---
+
+## Terminal 2 – Backend
+
+```bash
+cd backend
+
+npm start
+```
+
+Si el servidor inicia correctamente aparecerá:
+
+```text
+Mentia corriendo en http://localhost:3000
+```
+
+---
+
+## Acceder a la aplicación
+
+Abrir el navegador en:
+
+```text
+http://localhost:3000
+```
+
+No es necesario ejecutar el frontend por separado, ya que el backend sirve automáticamente los archivos de la aplicación.
+
+---
+
+# Flujo de funcionamiento
+
+1. El usuario inicia sesión en la plataforma.
+2. Carga una actividad o un archivo de código.
+3. El backend recibe la información enviada desde el frontend.
+4. El backend envía la actividad al microservicio de inteligencia artificial.
+5. El microservicio consulta la API de Google Gemini.
+6. Gemini analiza el código y genera un diagnóstico.
+7. El resultado es enviado nuevamente al backend.
+8. El backend almacena el análisis y el plan de estudio en PostgreSQL.
+9. Finalmente, el usuario visualiza los resultados desde la plataforma.
+
+---
+
+# Estructura del proyecto
+
+```text
+mentia-learning-lab/
+│
+├── backend/
+│   ├── server.js
+│   ├── auth.js
+│   ├── db.js
+│   ├── ia.js
+│   ├── uploads/
+│   └── package.json
+│
+├── frontend/
+│   ├── assets/
+│   ├── login/
+│   ├── actividades/
+│   ├── pag-subirarc/
+│   └── index.html
+│
+├── ia-analisis/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── .env
+│
+├── database/
+│   ├── schema.sql
+│   └── inserts.sql
+│
+└── README.md
+```
+
+---
+
+# Consideraciones
+
+- La aplicación está diseñada para ejecutarse en un entorno local.
+- Es necesario que PostgreSQL se encuentre en ejecución antes de iniciar el backend.
+- El microservicio de inteligencia artificial debe estar iniciado para que la funcionalidad de análisis de código esté disponible.
+- La API Key de Google Gemini debe ser válida y contar con permisos para utilizar el modelo configurado.
+
+---
+
+# Autores
